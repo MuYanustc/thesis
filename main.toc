@@ -1,0 +1,30 @@
+\addvspace {12bp}
+\contentsline {chapter}{\numberline {第一章}简介}{3}{chapter.1}%
+\contentsline {section}{\numberline {第一节}一级节标题}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {一}二级节标题}{3}{subsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1}三级节标题}{3}{subsubsection.1.1.1.1}%
+\contentsline {paragraph}{\numberline {（1）}四级节标题}{3}{paragraph.1.1.1.1.1}%
+\contentsline {subparagraph}{五级节标题}{3}{subparagraph*.10}%
+\contentsline {section}{\numberline {第二节}脚注}{3}{section.1.2}%
+\addvspace {12bp}
+\contentsline {chapter}{\numberline {第二章}浮动体}{4}{chapter.2}%
+\contentsline {section}{\numberline {第一节}三线表}{4}{section.2.1}%
+\contentsline {section}{\numberline {第二节}插图}{4}{section.2.2}%
+\contentsline {section}{\numberline {第三节}算法环境}{5}{section.2.3}%
+\addvspace {12bp}
+\contentsline {chapter}{\numberline {第三章}数学}{6}{chapter.3}%
+\contentsline {section}{\numberline {第一节}数学符号}{6}{section.3.1}%
+\contentsline {section}{\numberline {第二节}数学公式}{7}{section.3.2}%
+\contentsline {section}{\numberline {第三节}量和单位}{7}{section.3.3}%
+\contentsline {section}{\numberline {第四节}定理和证明}{7}{section.3.4}%
+\addvspace {12bp}
+\contentsline {chapter}{\numberline {第四章}引用文献的标注}{10}{chapter.4}%
+\contentsline {section}{\numberline {第一节}顺序编码制}{10}{section.4.1}%
+\contentsline {subsection}{\numberline {一}角标数字标注法}{10}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {二}数字标注法}{10}{subsection.4.1.2}%
+\contentsline {section}{\numberline {第二节}著者-出版年制标注法}{10}{section.4.2}%
+\contentsline {chapter}{\numberline {附录 A}补充材料}{11}{appendix.A}%
+\contentsline {section}{\numberline {第一节}补充章节}{11}{section.A.1}%
+\contentsline {chapter}{致谢}{12}{appendix*.16}%
+\contentsline {chapter}{在读期间发表的学术论文与取得的研究成果}{13}{appendix*.17}%
+\contentsfinish 
