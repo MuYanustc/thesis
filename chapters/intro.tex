@@ -1,0 +1,150 @@
+% !TeX root = ../main.tex
+
+\chapter{绪论}
+
+在大数据时代，随着数据量的迅速增加，我们往往需要更低的时间复杂度算法来完成任务。此外，
+在一些实际场景中，我们的数据是动态的，即数据集合会随着时间的推移而发生变化。显然，如果数据量极其庞大，
+当训练数据动态变化时，重新训练整个模型的代价是不可行的。
+
+为了解决这些问题，一个很自然的想法是构建一个小规模的训练集，以便我们可以在小规模集合而不是所有数据上运行现有的算法。
+coreset，最初出现于计算几何研究中的概念，已成为许多大规模机器学习问题中广泛使用的数据压缩技术。作为一种简洁的
+数据压缩技术，coreset还具有一些优秀的性质。例如，coreset通常是可组合的，因此可以应用于分布式计算环境之中。
+此外，它往往能在流算法和包含数据增删的动态算法中取得较好的表现。
+
+然而，现有的coreset算法仍然有较大的改进空间。一个主要的瓶颈是，多数coreset算法容易受到异常点（离群点）的影响
+而导致性能下降，而现实数据集中往往有许多噪声。许多现有研究也表明，只需在训练样本中加入少数攻击点，就可能导致原模型的效果显著下降。
+因此，如何设计一个鲁棒性更好的coreset算法是一个重要的研究方向。
+
+为了简要说明现有的coreset方法对离群值的敏感性，我们可以以一种基于采样的coreset算法为例。这个算法需要对每个数据点计算一个“敏感度，
+该敏感度衡量了该数据项对整个数据集的重要程度；然而，它往往会给远离数据多数部分的点分配高敏感度，也就是说，离群点往往会有更高的敏感度，
+从而相比正常的点拥有更高的进入coreset的概率。这种现象在实际应用中可能会导致coreset的性能下降，我们希望coreset中包含更多的正常点。
+现有的鲁棒 coreset 构建方法通常依赖于简单的均匀采样，并且仅在离群值的数量是输入规模的常数因子的情况下才有效。
+
+
+\section{本文贡献}
+
+在本文中，我们使用了一个统一的完全动态鲁棒 coreset 框架，适用于一类称为连续且有界（CnB）学习的优化问题。
+这类学习问题涵盖了机器学习中的一类广泛优化目标。
+简单来说，“CnB”要求优化目标是一个连续函数（例如，平滑或Lipschit连续），同时解决方案被限制在一个有界区域内。
+我们强调这种“有界”假设在实际机器学习场景中是非常自然的。
+为了阐明这一点，可以考虑一个迭代算法（例如常见的梯度下降或EM算法）来优化某个目标；除了最初的几轮，问题的解总是限制在一个局部区域内。
+此外，在动态情况中将解决方案范围限定在有界区域也是合理的，因为单次更新（插入或删除）数据不太可能显著改变解。
+
+本文沿用了\citet{Wang2021RobustAF}的coreset框架，首先，我们假设存在一个用于给定 CnB 优化目标的普通 coreset 构建方法 A（不考虑离群值）。
+算法思路是将输入数据分为两部分：“疑似正常点”和“疑似离群点”，其中这两部分的大小比例是一个参数 λ。对于“疑似正常点”，
+我们运行方法 A（作为一个黑箱）；对于“疑似离群点”，我们直接随机均匀地抽取一个小样本；
+最后，我们证明这两部分共同构成一个鲁棒的 coreset。
+这个框架也可以在动态数据情况下高效地在“Merge and Reduce”框架中实现（尽管原始的合并和减少框架并未设计用于包含离群值的情况）[BS80, HM04]。
+该框架的一个有趣特性是，如果动态数据中离群值的比例发生变化，我们可以轻松调整参数 λ 以动态更新我们的 coreset。
+
+本文的另一贡献是，对于“疑似离群点”的随机采样，证明其采样复杂度与参数空间的doubling dimension有关，相比于之前的工作，我们的结果在参数空间有较好性质时，能得到更优的结果。
+先前的结果中，对于“疑似离群点”的随机采样复杂度通常与数据空间的vc-dimension有关，这在实际应用中可能过大，甚至难以计算。
+
+
+
+
+\section{符号定义}
+
+
+我们介绍本文中使用的几个重要符号。假设 $\mathcal{P}$ 是参数空间。设 $X$ 为输入数据集，包含 $n$ 个项，位于度量空间 $X$ 中，每个 $x \in X$ 有一个权重 $w(x) \geq 0$。此外，我们用 $(X, z)$ 表示一个具有 $z$ 个离群值的给定实例 $X$。
+
+我们始终使用 $| \cdot |$ 和 $[[ \cdot ]]$ 分别表示给定数据集的数据项数量和总权重。我们考虑的机器学习问题，其目标函数是 $X$ 上代价的加权和，即：
+\begin{equation}
+f(\theta, X) := \sum_{x \in X} w(x) f(\theta, x).
+\label{eq:loss}
+\end{equation}
+
+其中，$f(\theta, x)$ 是参数向量 $\theta \in P$ 对应的由 $x$ 贡献的非负代价。目标是找到一个合适的 $\theta$ 使得目标函数 $f(\theta, X)$ 最小化。通常我们假设 $X$ 中的每个 $x$ 都有单位权重（即，$w(x) = 1$），并且很容易将我们的方法扩展到加权情况。
+
+给定 $X$ 中预定数量的离群值 $z \in \mathbb{Z}^+$（对于加权情况，“$z$”指的是离群值的总权重），我们定义“鲁棒”目标函数：
+\begin{equation}
+f_z(\theta, X) := \min_{O \subset X, |O| = z} f(\theta, X \setminus O).
+\label{eq:robust loss}
+\end{equation}
+
+实际上，上述定义~\eqref{eq:robust loss}来自于“修剪”思想，已被广泛应用于鲁棒优化问题。（引用）
+
+接下来，我们给出CnB问题的形式定义。函数 $g: \mathcal{P} \rightarrow \mathbb{R}$ 是 $\alpha$-Lipschitz 连续的，如果对于任意 $\theta_1, \theta_2 \in P$，有 $|g(\theta_1) - g(\theta_2)| \leq \alpha \|\Delta \theta\|$，其中 $\Delta \theta = \theta_1 - \theta_2$ 且 $\|\cdot\|$ 是 $P$ 中某个指定的范数。
+
+
+\begin{definition}[CnB 问题]
+  令 $\alpha > 0$，$\ell > 0$，并且 $\tilde{\theta} \in \mathcal{P}$。用 $\mathbb{B}(\tilde{\theta}, \ell)$ 表示在
+  参数空间 $\mathcal{P}$ 中以 $\tilde{\theta}$ 为中心、半径为 $\ell$ 的球。
+
+如果目标函数~\eqref{eq:loss} 满足以下条件，则称其为具有参数 $(\alpha, \ell, \tilde{\theta})$ 的 CnB 学习问题：
+
+（i）对于任何 $x \in X$，损失函数 $f(\cdot, x)$ 是 $\alpha$-Lipschitz 连续的
+
+（ii）$\theta$ 始终限制在 $\mathbb{B}(\tilde{\theta}, \ell)$ 内。
+\end{definition}
+
+我们定义CnB问题中的coreset如下：
+
+\begin{definition}[$\varepsilon$-coreset]
+  令 $\epsilon > 0$。给定一个数据集 $X \subseteq \mathcal{X}$ 
+  和目标函数 $f(\theta, X)$，如果加权集合 $\mathcal{C} \subseteq \mathcal{X}$ 满足对于
+  任意 $\theta \in \mathbb{B}(\tilde{\theta}, \ell)$，都有
+  \begin{equation*}
+  |f(\theta, \mathcal{C}) - f(\theta, X)| \leq \varepsilon f(\theta, X),
+  \end{equation*}
+则称 $\mathcal{C}$ 是 $X$ 的一个 $\varepsilon$-coreset。
+\label{def:coreset}
+\end{definition}
+
+
+如果 $\mathcal{C}$ 是 $X$ 的 $\epsilon$-coreset，我们可以在 $\mathcal{C}$ 上运行现有的优化算法，从而获得一个近似解。显然，我们期望 $\mathcal{C}$ 的大小尽可能小。
+根据定义\ref{def:coreset}，我们还定义了相应的鲁棒 coreset。
+
+
+\begin{definition}[鲁棒coreset]
+  令 $\epsilon > 0$，$\beta \in [0, 1]$。给定数据集 $X \subseteq \mathcal{X}$ 
+  和目标函数 $f(\theta, x)$，如果加权集合 $\mathcal{C} \subseteq \mathcal{X}$ 满足对于任意 $\theta \in \mathbb{B}(\tilde{\theta}, \ell)$，都有
+  \begin{equation*}
+  (1 - \epsilon) f_{(1+\beta)z}(\theta, X) \leq f_z(\theta, \mathcal{C}) \leq (1 + \epsilon) f_{(1-\beta)z}(\theta, X),
+  \end{equation*}
+
+则称 $\mathcal{C}$ 是 $X$ 的一个 $(\beta, \epsilon)$-鲁棒 coreset。
+\label{def:robust coreset}
+\end{definition}
+
+
+大致来说，如果我们在 $\mathcal{C}$ 上获得一个近似解 $\theta' \in \mathcal{P}$，那么该解
+在原始输入数据 $X$ 上的效果也能得到保持。参数 $\beta$ 表示在使用 $\theta'$ 作为 $X$ 的解时，离群值数量的误
+差。如果我们设定 $\beta = 0$，这意味着我们允许离群值数量没有误差。
+
+在第 B 节中，我们将详细讨论这种从 $\mathcal{C}$ 到 $X$ 转换的损失（在损失函数值和离群值数量方面）。？
+
+% 本文的其余部分组织如下。在第 3 节中，我们介绍我们的鲁棒 coreset 框架，并展示如何在完全动态环境中实现它。在第 4 节中，我们提出了两种不同的普通 coreset（没有离群值）构建方法，用于 CnB 学习问题，这些方法可以作为第 3 节中鲁棒 coreset 框架中的黑箱使用。最后，在第 5 节中，我们展示了我们的 coreset 方法在实践中的应用。
+
+% \subsection{二级节标题}
+
+% \subsubsection{三级节标题}
+
+% \paragraph{四级节标题}
+
+% \subparagraph{五级节标题}
+
+% 本模板 \pkg{ustcthesis} 是中国科学技术大学本科生和研究生学位论文的 \LaTeX{}
+% 模板， 按照《中国科学技术大学研究生学位论文撰写手册》（最近在修订中，以下简称《撰写手册》）和
+% 《\href{https://www.teach.ustc.edu.cn/?attachment_id=13867}
+% {中国科学技术大学本科毕业论文（设计）格式}》的要求编写。
+
+% Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+% incididunt ut labore et dolore magna aliqua.
+% Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+% aliquip ex ea commodo consequat.
+% Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+% fugiat nulla pariatur.
+% Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+% deserunt mollit anim id est laborum.
+
+
+
+% \section{脚注}
+
+% Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+% incididunt ut labore et dolore magna aliqua.
+% \footnote{Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+%   nisi ut aliquip ex ea commodo consequat.
+%   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+%   eu fugiat nulla pariatur.}
