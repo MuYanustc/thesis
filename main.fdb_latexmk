@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex main"] 1715787803 "main.aux" "main.bbl" "main" 1715843873 0
-  "./bib/ustc.bib" 1715787543 9556 6dda6f359ab976bde6250f9e5be8da0d ""
+["bibtex main"] 1715867105 "main.aux" "main.bbl" "main" 1715867303 0
+  "./bib/ustc.bib" 1715860904 9873 2f64db3030056fa8b50fe954ef6d5f88 ""
   "./ustcthesis-numerical.bst" 1715787543 46304 59325ac5231ba4632030cbf4e7fb3941 ""
-  "main.aux" 1715843873 9071 60f283a4150fbf4b77d0414e79f5abf0 "xelatex"
+  "main.aux" 1715867302 9278 1906a85cef63bf9a9e06c476352f1e33 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1715843873 "main.xdv" "main.pdf" "main" 1715843873 0
-  "main.xdv" 1715843873 280588 42760f333a44e51085c6cd680145eed6 "xelatex"
+["xdvipdfmx"] 1715867302 "main.xdv" "main.pdf" "main" 1715867303 0
+  "main.xdv" 1715867302 334720 b80377a39ca29a90bd29f4f6c899f832 "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1715843871 "/Users/l/Desktop/thesis/main.tex" "main.xdv" "main" 1715843873 0
+["xelatex"] 1715867300 "/Users/l/Desktop/thesis/main.tex" "main.xdv" "main" 1715867303 0
   "/System/Library/Fonts/Menlo.ttc" 1694832476 2155812 30e8e1ead3db825f24e1d4bdb001343e ""
-  "/Users/l/Desktop/thesis/main.tex" 1715843871 924 d6523b7787cc1d320681b19b50eb8be4 ""
+  "/Users/l/Desktop/thesis/main.tex" 1715866869 953 ed6aa4429f839c5c0718dcb29aa38a4b ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -137,19 +137,20 @@
   "chapters/citations.tex" 1715787543 1801 4c265a93e56e592b988a19000d93cb7c ""
   "chapters/complementary.tex" 1715787543 92 1f0cf0017329d75d76cbed1ad4ed6696 ""
   "chapters/floats.tex" 1715787543 3463 fd1705a2713c114c074dcaead51810aa ""
-  "chapters/intro.tex" 1715787543 1401 29019f2bda33c2c5602616b2cc8d91dd ""
+  "chapters/intro.tex" 1715867027 10392 98d42e6533410ef4ad2a1703e21ccbe8 ""
   "chapters/math.tex" 1715787543 7275 889c2bbcd1d9d47cd3cdbdc1fe8cc2fc ""
   "chapters/notation.tex" 1715787543 958 73c9c0183eda7080b28870c66d8daffa ""
   "chapters/publications.tex" 1715787543 469 874c9744b0e0a2817b8cd76f4d0f9ecf ""
+  "chapters/uniform.tex" 1715867300 1948 d44b0c47c1c674dd8959f6de053a3565 ""
   "figures//ustc-badge.pdf" 1715787543 68554 7157895e1884e629a4befd19758ac49e ""
   "figures/ustc-badge.pdf" 1715787543 68554 7157895e1884e629a4befd19758ac49e ""
   "figures/ustc-name-stxingkai.pdf" 1715787543 7606 c1d09cee54398dfdb98acdafff4f27ce ""
-  "main.aux" 1715843873 9071 60f283a4150fbf4b77d0414e79f5abf0 "xelatex"
-  "main.bbl" 1715787803 8195 c9569e36927c408d9464ad6f4fdc9052 "bibtex main"
-  "main.out" 1715843873 3083 d55a223cbbc4e0d8da9b56553fbddc4f "xelatex"
-  "main.tex" 1715843871 924 d6523b7787cc1d320681b19b50eb8be4 ""
-  "main.toc" 1715843873 2144 7891cc43b421432fe361f5ee3e7cc06f "xelatex"
-  "ustcsetup.tex" 1715787543 2824 6c1bc2f1a09559f8fe87ddd05c80be5b ""
+  "main.aux" 1715867302 9278 1906a85cef63bf9a9e06c476352f1e33 "xelatex"
+  "main.bbl" 1715867105 8541 9c4886547748318108221ef843a4da5f "bibtex main"
+  "main.out" 1715867302 3080 d73111546041d8a5a09d879da1c18023 "xelatex"
+  "main.tex" 1715866869 953 ed6aa4429f839c5c0718dcb29aa38a4b ""
+  "main.toc" 1715867302 1917 583c80387d647e90513dc7a157477b60 "xelatex"
+  "ustcsetup.tex" 1715859223 2779 809ad33e105f277894ab424ef6060cf5 ""
   "ustcthesis.cls" 1715787543 99062 4d8dec9d17d2893dae3e57e90cc95830 ""
   (generated)
   "main.aux"

@@ -1103,8 +1103,10 @@ INPUT ./chapters/intro.tex
 INPUT chapters/intro.tex
 INPUT ./chapters/intro.tex
 INPUT chapters/intro.tex
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+INPUT ./chapters/uniform.tex
+INPUT chapters/uniform.tex
+INPUT ./chapters/uniform.tex
+INPUT chapters/uniform.tex
 INPUT ./chapters/floats.tex
 INPUT chapters/floats.tex
 INPUT ./chapters/floats.tex
@@ -1115,6 +1117,8 @@ INPUT ./chapters/math.tex
 INPUT chapters/math.tex
 INPUT ./chapters/math.tex
 INPUT chapters/math.tex
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
 INPUT ./chapters/citations.tex
 INPUT chapters/citations.tex
 INPUT ./chapters/citations.tex

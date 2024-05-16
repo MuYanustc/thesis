@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax\else
@@ -10,6 +10,13 @@
   \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
   \let\eprint\href
 \fi
+
+\bibitem[Wang et~al.(2021)Wang, Guo, and Ding]{Wang2021RobustAF}
+WANG Z, GUO Y, DING H.
+\newblock Robust and fully-dynamic coreset for continuous-and-bounded learning (with outliers) problems\allowbreak[C/OL]//\allowbreak
+Neural Information Processing Systems.
+\newblock 2021.
+\newblock \url{https://api.semanticscholar.org/CorpusID:245876595}.
 
 \bibitem[Knuth(1986)]{knuth86a}
 KNUTH D~E.

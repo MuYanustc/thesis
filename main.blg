@@ -15,44 +15,47 @@ Reallocated global_strs (elt_size=200001) to 20 items from 10.
 Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bib/ustc.bib
-You've used 34 entries,
+Warning--I didn't find a database entry for "LLS01"
+Warning--I didn't find a database entry for "MSSW18"
+You've used 35 entries,
             5390 wiz_defined-function locations,
-            1251 strings with 12217 characters,
-and the built_in function-call counts, 139543 in all, are:
-= -- 4398
-> -- 13341
-< -- 18113
-+ -- 6022
-- -- 1329
-* -- 1501
-:= -- 20852
-add.period$ -- 114
-call.type$ -- 34
-change.case$ -- 113
-chr.to.int$ -- 4912
-cite$ -- 34
-duplicate$ -- 804
-empty$ -- 2593
-format.name$ -- 625
-if$ -- 36250
+            1262 strings with 12491 characters,
+and the built_in function-call counts, 146900 in all, are:
+= -- 4555
+> -- 14189
+< -- 19178
++ -- 6323
+- -- 1382
+* -- 1543
+:= -- 21872
+add.period$ -- 118
+call.type$ -- 35
+change.case$ -- 121
+chr.to.int$ -- 5171
+cite$ -- 35
+duplicate$ -- 831
+empty$ -- 2659
+format.name$ -- 657
+if$ -- 38176
 int.to.chr$ -- 1
-int.to.str$ -- 35
+int.to.str$ -- 36
 missing$ -- 0
-newline$ -- 200
-num.names$ -- 107
-pop$ -- 5286
+newline$ -- 207
+num.names$ -- 110
+pop$ -- 5652
 preamble$ -- 1
-purify$ -- 45
+purify$ -- 46
 quote$ -- 0
-skip$ -- 13055
+skip$ -- 13836
 stack$ -- 0
-substring$ -- 7688
-swap$ -- 34
-text.length$ -- 582
+substring$ -- 8004
+swap$ -- 35
+text.length$ -- 605
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 331
+type$ -- 342
 warning$ -- 0
-while$ -- 662
+while$ -- 685
 width$ -- 0
-write$ -- 481
+write$ -- 495
+(There were 2 warnings)
