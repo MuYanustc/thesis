@@ -32,3 +32,86 @@
 那么 $\text{vcdim}$ 可以达到 $\Theta(d)$ \citep{MSSW18}。
 以下定理表明，如果 $z$ 是 $n$ 的常数因子，那么 $\delta$-样本可以作
 为鲁棒 coreset。请注意，在以下定理中，目标函数 $f$ 可以是任何函数，而不仅仅是定义 1 中所述的函数。
+
+% 引用 wzx
+\begin{theorem}
+    设 $(X, z)$ 是鲁棒学习问题 ~\eqref{eq:robust loss} 的一个实例。
+    如果 $C$ 是 $f$-诱导范围空间中的 $X$ 的一个 $\delta$-样本，
+    我们为每个 $c \in C$ 赋值权重 $w(c) = \frac{n}{|C|}$。则我们有
+    \begin{equation*}
+    f_{z+\delta n}(\theta, X) \leq f_z(\theta, C) \leq f_{z-\delta n}(\theta, X)
+    \end{equation*}
+    对于任意 $\theta \in \mathcal{P}$ 和任
+    意 $\delta \in (0, z/n)$。
+    特别地，如果 $\delta = \beta z / n$，
+    则 $C$ 是 $X$ 的一个 $(\beta, 0)$-鲁棒 coreset，
+    并且 $C$ 的大小为 $O\left(\frac{1}{\beta^2}\left(\frac{n}{z}\right)^2\left(\text{vcdim} + \log \frac{1}{\eta}\right)\right)$。
+\end{theorem}
+
+\begin{corollary}
+    对于某个固定参数$\theta \in \mathcal{P}$, 如果我们从 $X$ 中均
+    匀采样 $O\left(\frac{1}{\delta^2}  \log \frac{2}{\eta}\right)$ 个点，
+    那么我们以概率 $1 - \eta$ 获得一个子诱导空间 $(\mathcal{X}, \mathcal{R}')$ 中的 $\delta$-样本。
+    \label{cor:fixed theta}
+\end{corollary}   
+
+这个推论可以通过考虑固定$\theta$的特殊情况导出。如果此时的$f$满足\ref{def:CnB}中的CnB条件，那么我们可以利用Lipcshitz连续性
+得到一些更强的结果。
+
+\begin{theorem}
+    如果 $f$ 满足定义~\ref{def:CnB} 中的CnB条件，那么我们可以从 $X$ 中均匀采样 $O\left(\frac{1}{\delta^2} \left(\text{ddim}\log \frac 1 \varepsilon + \log \frac{1}{\eta}\right)\right)$ 个点，
+    以概率 $1 - \eta$ 获得一个($\beta, \epsilon$)-coreset。其中$\text{ddim}$是参数空间$\mathcal{P}$的加倍维度，$\beta = \frac{\delta n}{z}$。
+\end{theorem}
+\begin{proof}
+    在证明该命题前，有一些需要用到的定义和命题需要给出。
+
+    \begin{definition}[$\varepsilon$-net]
+        对于一个集合$X$，如果存在一个子集$N \subseteq X$，使得对于任意$x \in X$，都存在一个$y \in N$，使得$d(x, y) \leq \varepsilon$，那么称$N$是$X$的一个$\varepsilon$-net。
+    \end{definition}
+
+    \begin{proposition}
+        对于一个空间$\mathcal{X}$，如果$\mathcal{X}$的加倍维度ddim为$d$，那么$\mathcal{X}$
+        中的$\mathbb{B}(\tilde{\theta}, \ell)$对应的
+        $\varepsilon l$-net的大小为$O\left(\frac{1}{\varepsilon^d}\right)$。
+        \label{prop:net}
+    \end{proposition}
+
+    \begin{proposition}[Union bound]
+        一般地，对于可数个事件 $A_1, A_2, A_3, \dots ,A_n$，我们有
+        \begin{equation*}
+            \mathbb{P} \left( \bigcup_{i=1}^{n} A_i \right) \leq \sum_{i=1}^{n} \mathbb{P}(A_i).
+        \end{equation*}
+        \label{prop:union bound}
+    \end{proposition}
+    加倍维度刻画了空间的一些性质，最直观的反应在$\varepsilon$-net的大小上。我们可以在
+$\mathbb{B}(\tilde{\theta}, \ell)$中随机采样$O\left(\frac{1}{\delta^2}\left(\log \frac{2|\mathbb{B}^{\varepsilon \ell}|}{\eta}\right)\right)$个点，记为$\mathcal{C}$
+其中$\mathbb{B}^{\varepsilon \ell}$是$\mathbb{B}(\tilde{\theta}, \ell)$的一个$\epsilon l$-net。
+
+根据命题\ref{prop:union bound}和推论\ref{cor:fixed theta}我们可以得到:
+\begin{equation}
+    \forall \theta \in \mathbb{B}^{\varepsilon \ell}, P\left[\mathcal{C}\text{是对应}(X,\mathcal{R}’)\text{的}\delta-\text{样本}\right]>1-\eta.
+\end{equation}
+
+这个结论意味着对于$\theta' \in \mathbb{B}^{\varepsilon\ell}$，带入$\beta = \frac{\delta n }{z}$，我们有
+\begin{equation*}
+    (1-\varepsilon)f_{(1+\beta )z}(\theta, X) <
+    f_{(1+\beta )z}(\theta, X) \leq 
+    f_z(\theta, \mathcal{C}) \leq f_{(1-\beta)z}(\theta, X) <
+    (1+\varepsilon)f_{(1-\beta)z}(\theta, X).
+\end{equation*}
+
+而对于$\theta\notin\mathbb{B}^{\varepsilon \ell}$的情况，我们取$\varepsilon_0=min\left\{\frac{\varepsilon}{2}, \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)\right\}$
+记$\theta_t$为$\varepsilon l$-net中距$\theta'$最近的点，我们有：
+\begin{align*}
+    f_z(\theta',\mathcal{C})&\leq f_z(\theta_t,\mathcal{C})+n\xi(\varepsilon_0\ell)\\
+    &\leq f_{z-\delta n}(\theta_t,X)+n\varepsilon_0\xi(\ell)\\
+    &\leq f_{z-\delta n}(\theta',X)+2n\varepsilon_0\xi(\ell).
+\end{align*}
+当$\frac\varepsilon 2 \le \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)$，即$n\xi(\ell)\le\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)f_z(\theta,X)}$时，有：
+\begin{align*}
+    f_z(\theta',\mathcal{C})&\leq f_{z-\delta n}(\theta',X)+\varepsilon f_{z-\delta n}(\theta,X)\\
+    &\leq f_{z-\delta n}(\theta',X)+\varepsilon \inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)\\
+    &\leq f_{z-\delta n}(\theta',X)+\varepsilon f_{z-\delta n}(\theta',X)=(1+\varepsilon)f_{z-\delta n}(\theta',X).
+\end{align*}
+当$\frac\varepsilon 2 \ge \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)$，即$n\xi(\ell)\ge\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)f_z(\theta,X)}$时，有：
+\end{proof}

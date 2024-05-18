@@ -64,7 +64,10 @@ f_z(\theta, X) := \min_{O \subset X, |O| = z} f(\theta, X \setminus O).
 
 实际上，上述定义~\eqref{eq:robust loss}来自于“修剪”思想，已被广泛应用于鲁棒优化问题。（引用）
 
-接下来，我们给出CnB问题的形式定义。函数 $g: \mathcal{P} \rightarrow \mathbb{R}$ 是 $\alpha$-Lipschitz 连续的，如果对于任意 $\theta_1, \theta_2 \in P$，有 $|g(\theta_1) - g(\theta_2)| \leq \alpha \|\Delta \theta\|$，其中 $\Delta \theta = \theta_1 - \theta_2$ 且 $\|\cdot\|$ 是 $P$ 中某个指定的范数。
+接下来，我们给出CnB问题的形式定义。函数 $g: \mathcal{P} \rightarrow \mathbb{R}$ 是 $\alpha$-Lipschitz 连续的，
+如果对于任意 $\theta_1, \theta_2 \in P$，有 $|g(\theta_1) - g(\theta_2)| \leq \alpha \|\Delta \theta\|$，
+其中 $\Delta \theta = \theta_1 - \theta_2$ 且 $\|\cdot\|$ 是 $P$ 中某个指定的范数。
+后文中为了方便，我们往往记为$|g(\theta_1) - g(\theta_2)| \leq \alpha \|\increment \theta\| = \xi(\increment \theta)$，其中 $\xi(\cdot)$ 是一个线性函数。
 
 
 \begin{definition}[CnB 问题]
@@ -73,9 +76,10 @@ f_z(\theta, X) := \min_{O \subset X, |O| = z} f(\theta, X \setminus O).
 
 如果目标函数~\eqref{eq:loss} 满足以下条件，则称其为具有参数 $(\alpha, \ell, \tilde{\theta})$ 的 CnB 学习问题：
 
-（i）对于任何 $x \in X$，损失函数 $f(\cdot, x)$ 是 $\alpha$-Lipschitz 连续的
+（i）对于任何 $x \in X$，损失函数 $f(\cdot, x)$ 是 $\alpha$-Lipschitz 连续的。
 
 （ii）$\theta$ 始终限制在 $\mathbb{B}(\tilde{\theta}, \ell)$ 内。
+\label{def:CnB}
 \end{definition}
 
 我们定义CnB问题中的coreset如下：
