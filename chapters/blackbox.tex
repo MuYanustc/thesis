@@ -1,0 +1,42 @@
+\chapter{黑盒方法}
+
+正如前言，我们的coreset框架需要一个黑盒的coreset方法$\mathcal{A}$。
+本章中我们提供两种不同的黑盒方法，并探讨其在CnB问题下的复杂度。
+
+\section{基于重要性采样的coreset}
+
+我们遵循基于重要性采样的方法 \citep{LS10}。
+假设 $X = \{x_1, \cdots, x_n\}$。对于每个数据点 $x_i$，
+它的敏感度 $\sigma_i = \sup_\theta \frac{f(\theta, x_i)}{f(\theta, X)}$ 
+测量了其对整个输入数据 $X$ 的重要性。计算敏感度通常很困难，但敏感度的上界实际上已经足以构建 
+coreset。假设 $s_i$ 是 $\sigma_i$ 的上界，并且令 $S = \sum_{i=1}^n s_i$。coreset 的构建如下。
+我们从 $X$ 中采样一个子集 $C$，其中 $C$ 的每个元素是独立同分布采样的，
+概率 $p_i = s_i / S$。我们为 $C$ 中的每个采样数据项 $x_i$ 赋值权重 $w_i = \frac{S}{s_i |C|}$。
+最后，我们返回 $C$ 作为 coreset。
+
+
+\begin{theorem}[\citep{BFL16}]。
+
+令 $vcdim$ 为由 $f(\theta, x)$ 诱导的范围空间的 VC 维度（或 shattering 维度）。如果 $C$ 的大小为
+\begin{equation}
+\Theta \left( \frac{S}{\epsilon^2} \left( vcdim \cdot \log S + \log \frac{1}{\eta} \right) \right)
+\end{equation}
+
+则 $C$ 是一个 $\epsilon$-coreset，概率至少为 $1 - \eta$。
+\end{theorem}
+
+因此，唯一剩下的问题是如何计算上界 $s_i$。回想一下，
+我们假设我们的成本函数在定义 1 中是 $\alpha$-Lipschitz
+（或 $\alpha$-平滑，$\alpha$-Lipschitz 连续 Hessian）。
+也就是说，我们可以界定 $f(\theta, x_i)$ 和 $f(\tilde{\theta}, x_i)$ 之间的差异，
+这样的界限可以帮助我们计算 $s_i$。
+在第 D 节中，我们展示了计算 $s_i$ 等同于求解一个二次分式规划。
+这种规划可以简化为一个半定规划（SDP）\citep{BT09}，
+可以在多项式时间内解决到任意所需的精度 \citep{GM12}。
+我们用 $\text{T}(d)$ 表示 SDP 的求解时间，其中 $d$ 是数据点的维度。
+因此，coreset 构建的总运行时间为 $O(n \cdot \text{T}(d))$。
+
+%  这里补到前面，加倍维度是描述数据增长率的常用度量，也可以视为欧几里得维度的一般化。例如，d 维欧几里得空间的加倍维度为 $\Theta(d)$ \citep{CGMZ16}。
+定理 4 的一个缺点是 coreset 的大小取决于由 $f(\theta, x)$ 诱导的 \text{vcdim}。
+对于一些目标函数，$vcdim$ 的值可能非常大或难以获得。
+在这里，我们证明了对于一个连续且有界的成本函数，coreset 的大小可以与 \text{vcdim}无关；相反，它取决于参数空间 $\mathcal{P}$ 的加倍维度 \text{ddim}。

@@ -30,3 +30,47 @@
 \end{theorem}
 %cite wzx
 本文在之前工作的基础上，基于\ref{thm:uniform final}优化了$C_{si}$的大小，使其理论下限不再依赖于vcdim。
+
+\section{动态情况}
+
+本文的coreset框架的另一个点是其适应于动态数据流。在动态情况下，数据集$X$会不断变化，我们需要不断更新coreset。
+
+标准的 $\varepsilon$-coreset 通常具有两个重要性质。如果 $C_1$ 和 $C_2$ 分别是两个不相交集合 $X_1$ 
+和 $X_2$ 的 $\varepsilon$-coreset，那么它们的并集 $C_1 \cup C_2$ 应该是 $X_1 \cup X_2$ 的 $\epsilon$-coreset。
+同时，如果 $C_1$ 是 $C_2$ 的 $\varepsilon_1$-coreset 且 $C_2$ 是 $C_3$ 的 $\varepsilon_2$-coreset，
+那么 $C_1$ 应该是 $C_3$ 的 $(\varepsilon_1 + \varepsilon_2 + \varepsilon_1 \varepsilon_2)$-coreset。
+基于这两个性质，可以使用“merge-and-reduce”技术 \citep{BS80, HM04} 为增量数据流构建一个 coreset。
+
+
+大致来说，“merge-and-reduce”技术使用一系列“桶”来维护输入流数据的 coreset，并以自底向上的方式合并这些桶。
+然而，在有离群值的情况下直接使用这种策略需要一些额外设计，因为我们无法确定每个桶中的离群值数量。
+我们的混合鲁棒 coreset 框架的一个有趣方面是，我们可以通过使用一个大小为 $O(n)$ 的辅助表 $\mathcal{L}$ 
+以及“merge-and-reduce”技术轻松解决这一障碍（请注意，即使在没有离群值的情况下，维护一个完全动态的 coreset 已经需要 $\Omega(n)$ 的空间 \citep{HK20}）。
+我们在下面简要介绍具体算法。
+
+回顾一下，我们将输入数据 $X$ 分为两部分：$n - \tilde{z}$ 个“可能的正常
+点”和 $\tilde{z}$ 个“可能的离群点”，其中 $\tilde{z} = (1 + 1/\epsilon_0)z$。
+
+对于第一部分，我们只需直接应用"merge-and-reduce"技术来获得一个完全动态 coreset $C_{si}$；对于第二部分，我们可以只取一个 $\delta$-样本或取整个集合（如果我们要求 $\beta = 0$），并将其表示为 $C_{so}$。
+
+此外，我们在一个表 $\mathcal{L}$ 中记录关键值 $x.value = f(\tilde{\theta}, x)$ 及其
+在merge-and-reduce树中的位置 $x.position$，对于 $X$ 中的每个 $x$；它们按 $x.value$ 排序。
+为了处理动态更新（例如删除和插入），我们还维护一个指向数据项 $x_z$ 的关键指针 $p$（
+会议 $x_z$ 是第 3.2 节中定义的 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点）。
+
+当一个新的数据项 $x$ 进入或现有数据项 $x$ 将被删除时，我们只需要将其与 $f(\tilde{\theta}, x_z)$ 比较，以决定是更新 $C_{si}$ 还是 $C_{so}$；更新后，我们还需要更新 $x_z$ 和表 $\mathcal{L}$ 中的指针 $p$。如果离群值数量 $z$ 发生变化，我们只需要首先更新 $x_z$ 和 $p$，然后更新 $C_{si}$ 和 $C_{so}$（例如，如果 $z$ 增加，我们只需要从 $C_{so}$ 中删除一些项，并将一些项插入 $C_{si}$）。为了实现这些更新操作，我们还选择了一个桶作为“热桶”，它充当执行所有数据移动的传递工具。
+
+为了整体上获得一个 $\varepsilon$-coreset，我们需要在每个减少部分构建一个大小为 $M(\varepsilon / \log n)$ 的 coreset \citep{AHV04}。我们用 $M$ 表示 $M(\varepsilon / \log n)$ 并假设我们可以在时间 $t(|X|)$ 内计算 $X$ 的 coreset \citep{Sch14}，我们针对增删改有以下结果。
+
+\begin{enumerate}
+    \item Insert(y)（插入数据点y）根据$y.value=f(\tilde{\theta},y)$插入表
+    $\mathcal{L}$中。如果$y.value\geq $，则将$y$插入$C_{so}$，否则插入$C_{si}$。
+    如果$y.value>f(\tilde{\theta},x_z)=p->value$，则将p指向的元素加入热桶，更新$p\leftarrow p+1$；
+    如果$y.value\leq p->value$，将该元素加入热桶。
+    最后从热桶自底向上更新整颗树。更新时间为$O\left(t(M)\log n\right)$
+    \item Delete(y)（删除数据点y）如果$y$是可能的正常点，那么将其从对应的桶$y.position$中删除，
+    从这个桶更新树，最后从表$\mathcal{L}$中删除$y$。如果$y$是可能的离群点，直接从表$\mathcal{L}$中删除$y$，然后更新$p\leftarrow p-1$，
+    最后删除$p$指向的点，从对应桶更新树。总时间开销是$O\left(t(M)\log n\right)$
+    \item Update(y)（更新数据点y）只需要运行Delete(y)和Insert(y)即可，运行时间为$O\left(t(M)\log n\right)$
+    \item Change($\increment$z)（改变离群点的数量）根据$\increment z$的正负分别运行$\tilde{z}(z+\increment z)-\tilde{z}(z)$次针对树的Insert或Delete操作。对应的更新时间为$O\left(\frac{\increment z}{\varepsilon}t(M)\log n\right)$
+\end{enumerate}
