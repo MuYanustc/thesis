@@ -86,37 +86,37 @@ f_z(\theta, X) := \min_{O \subset X, |O| = z} f(\theta, X \setminus O).
 
 \begin{definition}[$\varepsilon$-coreset]
   令 $\epsilon > 0$。给定一个数据集 $X \subseteq \mathcal{X}$ 
-  和目标函数 $f(\theta, X)$，如果加权集合 $\mathcal{C} \subseteq \mathcal{X}$ 满足对于
+  和目标函数 $f(\theta, X)$，如果加权集合 $C \subseteq \mathcal{X}$ 满足对于
   任意 $\theta \in \mathbb{B}(\tilde{\theta}, \ell)$，都有
   \begin{equation*}
-  |f(\theta, \mathcal{C}) - f(\theta, X)| \leq \varepsilon f(\theta, X),
+  |f(\theta, C) - f(\theta, X)| \leq \varepsilon f(\theta, X),
   \end{equation*}
-则称 $\mathcal{C}$ 是 $X$ 的一个 $\varepsilon$-coreset。
+则称 $C$ 是 $X$ 的一个 $\varepsilon$-coreset。
 \label{def:coreset}
 \end{definition}
 
 
-如果 $\mathcal{C}$ 是 $X$ 的 $\epsilon$-coreset，我们可以在 $\mathcal{C}$ 上运行现有的优化算法，从而获得一个近似解。显然，我们期望 $\mathcal{C}$ 的大小尽可能小。
+如果 $C$ 是 $X$ 的 $\epsilon$-coreset，我们可以在 $C$ 上运行现有的优化算法，从而获得一个近似解。显然，我们期望 $C$ 的大小尽可能小。
 根据定义\ref{def:coreset}，我们还定义了相应的鲁棒 coreset。
 
 
 \begin{definition}[鲁棒coreset]
   令 $\epsilon > 0$，$\beta \in [0, 1]$。给定数据集 $X \subseteq \mathcal{X}$ 
-  和目标函数 $f(\theta, x)$，如果加权集合 $\mathcal{C} \subseteq \mathcal{X}$ 满足对于任意 $\theta \in \mathbb{B}(\tilde{\theta}, \ell)$，都有
+  和目标函数 $f(\theta, x)$，如果加权集合 $C \subseteq \mathcal{X}$ 满足对于任意 $\theta \in \mathbb{B}(\tilde{\theta}, \ell)$，都有
   \begin{equation*}
-  (1 - \epsilon) f_{(1+\beta)z}(\theta, X) \leq f_z(\theta, \mathcal{C}) \leq (1 + \epsilon) f_{(1-\beta)z}(\theta, X),
+  (1 - \epsilon) f_{(1+\beta)z}(\theta, X) \leq f_z(\theta, C) \leq (1 + \epsilon) f_{(1-\beta)z}(\theta, X),
   \end{equation*}
 
-则称 $\mathcal{C}$ 是 $X$ 的一个 $(\beta, \epsilon)$-鲁棒 coreset。
+则称 $C$ 是 $X$ 的一个 $(\beta, \epsilon)$-鲁棒 coreset。
 \label{def:robust coreset}
 \end{definition}
 
 
-大致来说，如果我们在 $\mathcal{C}$ 上获得一个近似解 $\theta' \in \mathcal{P}$，那么该解
+大致来说，如果我们在 $C$ 上获得一个近似解 $\theta' \in \mathcal{P}$，那么该解
 在原始输入数据 $X$ 上的效果也能得到保持。参数 $\beta$ 表示在使用 $\theta'$ 作为 $X$ 的解时，离群值数量的误
 差。如果我们设定 $\beta = 0$，这意味着我们允许离群值数量没有误差。
 
-在第 B 节中，我们将详细讨论这种从 $\mathcal{C}$ 到 $X$ 转换的损失（在损失函数值和离群值数量方面）。？
+在第 B 节中，我们将详细讨论这种从 $C$ 到 $X$ 转换的损失（在损失函数值和离群值数量方面）。？
 
 % 本文的其余部分组织如下。在第 3 节中，我们介绍我们的鲁棒 coreset 框架，并展示如何在完全动态环境中实现它。在第 4 节中，我们提出了两种不同的普通 coreset（没有离群值）构建方法，用于 CnB 学习问题，这些方法可以作为第 3 节中鲁棒 coreset 框架中的黑箱使用。最后，在第 5 节中，我们展示了我们的 coreset 方法在实践中的应用。
 

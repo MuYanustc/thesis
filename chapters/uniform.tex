@@ -61,6 +61,7 @@
 \begin{theorem}
     如果 $f$ 满足定义~\ref{def:CnB} 中的CnB条件，那么我们可以从 $X$ 中均匀采样 $O\left(\frac{1}{\delta^2} \left(\text{ddim}\log \frac 1 \varepsilon + \log \frac{1}{\eta}\right)\right)$ 个点，
     以概率 $1 - \eta$ 获得一个($\beta, \epsilon$)-coreset。其中$\text{ddim}$是参数空间$\mathcal{P}$的加倍维度，$\beta = \frac{\delta n}{z}$。
+    \label{thm:uniform}
 \end{theorem}
 \begin{proof}
     在证明该命题前，有一些需要用到的定义和命题需要给出。
@@ -84,34 +85,73 @@
         \label{prop:union bound}
     \end{proposition}
     加倍维度刻画了空间的一些性质，最直观的反应在$\varepsilon$-net的大小上。我们可以在
-$\mathbb{B}(\tilde{\theta}, \ell)$中随机采样$O\left(\frac{1}{\delta^2}\left(\log \frac{2|\mathbb{B}^{\varepsilon \ell}|}{\eta}\right)\right)$个点，记为$\mathcal{C}$
+$X\subset \mathcal{X}$中随机采样$O\left(\frac{1}{\delta^2}\left(\log \frac{2|\mathbb{B}^{\varepsilon \ell}|}{\eta}\right)\right)$个点，记为$C$。
 其中$\mathbb{B}^{\varepsilon \ell}$是$\mathbb{B}(\tilde{\theta}, \ell)$的一个$\epsilon l$-net。
 
 根据命题\ref{prop:union bound}和推论\ref{cor:fixed theta}我们可以得到:
 \begin{equation}
-    \forall \theta \in \mathbb{B}^{\varepsilon \ell}, P\left[\mathcal{C}\text{是对应}(X,\mathcal{R}’)\text{的}\delta-\text{样本}\right]>1-\eta.
+    \forall \theta \in \mathbb{B}^{\varepsilon \ell}, P\left[C\text{是对应}(X,\mathcal{R}’)\text{的}\delta-\text{样本}\right]>1-\eta.
 \end{equation}
 
 这个结论意味着对于$\theta' \in \mathbb{B}^{\varepsilon\ell}$，带入$\beta = \frac{\delta n }{z}$，我们有
 \begin{equation*}
     (1-\varepsilon)f_{(1+\beta )z}(\theta, X) <
     f_{(1+\beta )z}(\theta, X) \leq 
-    f_z(\theta, \mathcal{C}) \leq f_{(1-\beta)z}(\theta, X) <
+    f_z(\theta, C) \leq f_{(1-\beta)z}(\theta, X) <
     (1+\varepsilon)f_{(1-\beta)z}(\theta, X).
 \end{equation*}
 
-而对于$\theta\notin\mathbb{B}^{\varepsilon \ell}$的情况，我们取$\varepsilon_0=min\left\{\frac{\varepsilon}{2}, \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)\right\}$
+而对于$\theta\notin\mathbb{B}^{\varepsilon \ell}$的情况，我们取$\varepsilon_0=\min\left\{\frac{\varepsilon}{2}, \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)\right\}$
 记$\theta_t$为$\varepsilon l$-net中距$\theta'$最近的点，我们有：
 \begin{align*}
-    f_z(\theta',\mathcal{C})&\leq f_z(\theta_t,\mathcal{C})+n\xi(\varepsilon_0\ell)\\
+    f_z(\theta',C)&\leq f_z(\theta_t,C)+n\xi(\varepsilon_0\ell)\\
     &\leq f_{z-\delta n}(\theta_t,X)+n\varepsilon_0\xi(\ell)\\
     &\leq f_{z-\delta n}(\theta',X)+2n\varepsilon_0\xi(\ell).
 \end{align*}
 当$\frac\varepsilon 2 \le \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)$，即$n\xi(\ell)\le\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)f_z(\theta,X)}$时，有：
 \begin{align*}
-    f_z(\theta',\mathcal{C})&\leq f_{z-\delta n}(\theta',X)+\varepsilon f_{z-\delta n}(\theta,X)\\
+    f_z(\theta',C)&\leq f_{z-\delta n}(\theta',X)+\varepsilon n \xi(\ell)\\
     &\leq f_{z-\delta n}(\theta',X)+\varepsilon \inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)\\
     &\leq f_{z-\delta n}(\theta',X)+\varepsilon f_{z-\delta n}(\theta',X)=(1+\varepsilon)f_{z-\delta n}(\theta',X).
 \end{align*}
-当$\frac\varepsilon 2 \ge \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)$，即$n\xi(\ell)\ge\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)f_z(\theta,X)}$时，有：
+当$\frac\varepsilon 2 > \frac{\varepsilon}{2n\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f_z(\theta,X)$，即$n\xi(\ell)\ge\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)f_z(\theta,X)}$时，有：
+\begin{align*}
+    f_z(\theta',C)&\leq f_{z-\delta n}(\theta',X)+\varepsilon \inf_{\theta \in \mathbb{B}(\tilde{\theta},\ell)}f_{z}(\theta,X)\\
+    &\leq (1+\varepsilon)f_{z-\delta n}(\theta',X).
+\end{align*}
+同理可证得：
+\begin{equation}
+    f_z(\theta',C)\geq (1-\varepsilon)f_{z+\delta n}(\theta',X).
+\end{equation}
+整理上述不等式，并带入$\beta=\frac{\delta n}{z}$我们可以得到对应定义\ref{def:robust coreset}的形式：
+\begin{equation}
+    (1-\varepsilon)f_{(1+\beta)z}(\theta',X) \leq f_z(\theta',C) \leq (1+\varepsilon)f_{(1-\beta)z}(\theta',X).
+\end{equation}
+
+\end{proof}
+
+可以观察到关于这个定理的结论中，出现了新的参数$\varepsilon$，用于控制$\delta$-样本的质量。越小的$\varepsilon$意味着更好的质量，但是也意味着更大的样本量。
+那么是否可以通过均匀采样得到一个不牺牲精度的鲁棒coreset呢，即一个$(\beta,0)$-coreset呢？答案是肯定的。
+
+\begin{theorem}
+    如果$f$满足定义\ref{def:CnB}中的CnB条件，那么我们可以从$X$中均匀采样$O\left(\frac{1}{\delta^2}\left(\text{ddim}\log\frac 1 \delta+\log\frac{1}{\eta}\right)\right)$个点，以概率$1-\eta$获得一个$(\beta,0)$-coreset，其中$\beta=\frac{\delta n}{z}$。
+    \label{thm:uniform final}
+\end{theorem}
+
+\begin{proof}
+    证明的思路是通过更小的$\delta'$，例如$\delta'=\delta/2$，通过引入参数$\varepsilon$，并利用Lipschitz连续性，得到一个$(\beta,0)$-coreset，$\beta=\frac{\delta n}{z}$。
+类似于定理\ref{thm:uniform}中的做法，我们可以从$X\subset \mathcal{X}$中均匀采样
+$O\left(\frac{1}{\delta'^2}\left(\text{ddim}\log\frac 1 \varepsilon+\log\frac{1}{\eta}\right)\right)$个点，记为$C$，$\varepsilon$待定。
+类似的，我们可以得到：
+\begin{equation}
+    f_z(\theta',C)\leq f_{z-\delta' n}(\theta',X)+2n\varepsilon\xi(\ell).
+\end{equation}
+规定$f(\theta,x_z)$表示在$\left\{f(\theta,x)|x\in X\right\}$中第z大的元素。同样只证不等式的一边为例，我们取$\varepsilon \leq\frac{\delta'-\delta}{2\xi(\ell)}\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f(\theta,x_{z-\delta'n})=O(\delta)$，代入上式：
+\begin{align*}
+    f_z(\theta',C)&\leq f_{z-\delta' n}(\theta',X)+n(\delta-\delta')\inf_{\theta\in\mathbb{B}(\tilde{\theta},\ell)}f(\theta,x_{z-\delta'n})\\
+    &\leq f_{z-\delta' n}(\theta',X)+\sum_{i=z-\delta n}^{z-\delta'n-1}f(\theta',x_i)\\
+    &= f_{z-\delta n}(\theta',X).
+\end{align*}
+
+该结果说明了$C$是一个$(\beta,0)$-coreset，其中$\beta=\frac{\delta n }{z}$。
 \end{proof}
