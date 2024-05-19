@@ -48,6 +48,8 @@
     并且 $C$ 的大小为 $O\left(\frac{1}{\beta^2}\left(\frac{n}{z}\right)^2\left(\text{vcdim} + \log \frac{1}{\eta}\right)\right)$。
 \end{theorem}
 
+该结论只有当 $z$ 是 $n$ 的常数因子时才是有意义的，否则例如$z=\sqrt n$时，coreset的大小将会是$O(n)$量级的，而这是没有意义的。
+本文后续使用的coreset框架可以在限定为CnB问题时，解决这一缺点。
 \begin{corollary}
     对于某个固定参数$\theta \in \mathcal{P}$, 如果我们从 $X$ 中均
     匀采样 $O\left(\frac{1}{\delta^2}  \log \frac{2}{\eta}\right)$ 个点，

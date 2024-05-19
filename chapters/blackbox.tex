@@ -19,10 +19,10 @@ coreset。假设 $s_i$ 是 $\sigma_i$ 的上界，并且令 $S = \sum_{i=1}^n s_
 
 令 $vcdim$ 为由 $f(\theta, x)$ 诱导的范围空间的 VC 维度（或 shattering 维度）。如果 $C$ 的大小为
 \begin{equation}
-\Theta \left( \frac{S}{\epsilon^2} \left( vcdim \cdot \log S + \log \frac{1}{\eta} \right) \right)
+\Theta \left( \frac{S}{\varepsilon^2} \left( \text{vcdim} \cdot \log S + \log \frac{1}{\eta} \right) \right)
 \end{equation}
-
 则 $C$ 是一个 $\epsilon$-coreset，概率至少为 $1 - \eta$。
+\label{thm:importance sampling}
 \end{theorem}
 
 因此，唯一剩下的问题是如何计算上界 $s_i$。回想一下，
@@ -37,6 +37,82 @@ coreset。假设 $s_i$ 是 $\sigma_i$ 的上界，并且令 $S = \sum_{i=1}^n s_
 因此，coreset 构建的总运行时间为 $O(n \cdot \text{T}(d))$。
 
 %  这里补到前面，加倍维度是描述数据增长率的常用度量，也可以视为欧几里得维度的一般化。例如，d 维欧几里得空间的加倍维度为 $\Theta(d)$ \citep{CGMZ16}。
-定理 4 的一个缺点是 coreset 的大小取决于由 $f(\theta, x)$ 诱导的 \text{vcdim}。
-对于一些目标函数，$vcdim$ 的值可能非常大或难以获得。
-在这里，我们证明了对于一个连续且有界的成本函数，coreset 的大小可以与 \text{vcdim}无关；相反，它取决于参数空间 $\mathcal{P}$ 的加倍维度 \text{ddim}。
+定理\ref{thm:importance sampling}的一个缺点是 coreset 的大小取决于由 $f(\theta, x)$ 诱导的 \text{vcdim}。
+对于一些目标函数，vcdim 的值可能非常大或难以获得。
+在这里，我们证明了对于一个连续且有界的成本函数，coreset 的大小可以与 \text{vcdim}无关；
+相反，它取决于参数空间 $\mathcal{P}$ 的加倍维度 \text{ddim}。
+定理\ref{thm:improved importance sampling}相对于定理\ref{thm:importance sampling}的主要优势在于我们不需要知道
+由损失函数诱导的 VC 维度。另一方面，加倍维度通常更容易计算
+（或估计），例如，给定实例在 $\mathbb{R}^d$ 中的加倍维度仅为 $\Theta(d)$，
+即使问题的损失函数可能非常复杂。
+
+定理\ref{thm:improved importance sampling}的另一个动机来自稀疏优化。设参数空间为 $\mathbb{R}^D$，
+我们限制 $\theta$ 为 $k$-稀疏（即，至多有 $k$ 个非零项，且 $k \ll D$）。
+很容易看出，$\theta$ 的定义域是 $\binom{D}{k}$ 个 $k$ 维子空间的并集，
+因此其加倍维度为 $O(k \log D)\ll O(D)$。
+
+\begin{theorem}
+    对于一个CnB问题，令ddim为参数空间$\mathcal{P}$的加倍维度。
+    那么运行上述基于重要性采样的coreset方法，我们以概率为$1-\eta$得到一个coreset，
+    其大小为$\Theta\left(\frac{S}{\varepsilon^2}\left(\log S +\log \frac 1 \eta + \text{ddim}\log\frac{1}{\varepsilon}\right)\right)$。
+    \label{thm:improved importance sampling}
+\end{theorem}
+
+\begin{corollary}
+    对于一个固定的$\theta_0\in \mathbb{B}(\tilde{\theta},l)$，运行重要性采样的coreset方法，
+    我们以概率$1-\eta$得到一个coreset，其大小为$\Theta\left(\frac{S}{\varepsilon^2}\left(\log S +\log \frac 1 \eta \right)\right)$。
+    \label{cor:importance sampling with fixed theta}
+\end{corollary}
+\begin{proof}
+    我们的证明思路类似于定理\ref{thm:uniform}的证明。同样的，考虑$\mathbb{B}(\tilde{\theta},l)$的$\varepsilon l$-net，并在
+    $X\subset \mathcal{X}$上采样$\Theta\left(\frac{S}{\varepsilon^2}\left(\log S +\log \frac {\left|\mathbb{B}^{\varepsilon \ell}\right|} {\eta} \right)\right)$
+
+    同样的，对于$\theta \in \mathbb{B}^{\varepsilon \ell}$，利用union bound和推论\ref{cor:importance sampling with fixed theta}，以概率$1-\eta$是一个$\varepsilon$-coreset。
+
+    对于$\theta' \in \mathbb{B}(\tilde{\theta},l)\setminus \mathbb{B}^{\varepsilon \ell}$，令$\theta_t$为$\mathbb{B}^{\varepsilon \ell}$中距离$\theta'$最近的点。利用三角不等式：
+    \begin{align*}
+        |f(\theta'&,X)-f(\theta',C)|\leq \\
+        &|f(\theta',X)-f(\theta_t,X)|+|f(\theta_t,X)-f(\theta_t,C)|+|f(\theta',C)-f(\theta_t,C)|
+    \end{align*}
+    注意此处的$f(\theta,\cdot)$满足\ref{eq:loss}的带权形式。
+    第一项不超过 $\varepsilon n \xi(\ell)$，因为 $\xi(\varepsilon \ell) \leq \epsilon \xi(\ell)$。
+    中间项可以由 $\varepsilon (f(\theta, X) + n \xi(\ell))$控制。
+    第三项不超过 $\varepsilon n \cdot c \cdot \xi(\ell)$，其中 $c$ 是一个常数，原因是重要性采样的权重之和不是n，c是一个由敏感度上界决定的常数$c=\frac{(\sum_{x_i\in X}s_i)/|X|}{(\sum_{x_i \in C}1/s_i)/|C|}$。
+    因此，$|f(\theta, X) - f(\theta, C)| \leq \epsilon f(\theta, X) + 3 \epsilon n \xi(\ell)$。
+    如果将 $\varepsilon$ 替换为 $\min \{\varepsilon / 2, \varepsilon \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \epsilon)} f(\theta, X) / 2(2+c)n \xi(\ell)\}$，
+    通过简单计算，我们可以以概率$1-\eta$得到大小为$|C|$的 $\epsilon$-coreset:
+\begin{equation}
+|C| = \Theta \left( \frac{S}{\varepsilon^2} \left( \text{ddim} \log \frac{1}{\epsilon} + \log \frac{1}{\eta} \right) \right)
+\end{equation}
+由于 $\xi(\ell)$ 有一个隐含参数 $\alpha$，$|C|$ 
+的隐含常数取决于 $\alpha$，c 和
+$\inf_{\theta \in \mathcal{B}(\tilde{\theta}, \epsilon)} \frac{f(\theta, X)}{n}$。
+
+\end{proof}
+
+\section{基于分层采样的coreset}
+
+可能已经注意到，定理\ref{thm:importance sampling} （以及定理\ref{thm:improved importance sampling}）中
+提出的 coreset 大小是数据相关的。
+即，coreset 大小取决于值 $S$，而对于不同的输入实例，$S$ 可能是不同的。
+为了实现数据无关的 coreset 大小，我们引入了以下基于分层采样的方法。
+
+
+我们设 $\varrho = \min_{x \in X} f(\tilde{\theta}, x)$ 和 $T = \frac{1}{|X|} f(\tilde{\theta}, X)$。
+然后，我们根据取 $\theta=\tilde{\theta}$ 的损失函数将所有数据点划分到不同的层中。
+具体来说，如果 $f(\tilde{\theta}, x) - \varrho < T$，则将点 $x$ 分配到第 0 层；
+否则，我们将其分配到 $\left\lfloor \log \left( \frac{f(\tilde{\theta}, x) - \varrho}{T} \right) \right\rfloor$ 层。
+令 $L$ 为落在第 $j$ 层中的点的集合 $X_j$ 的最大层数，$L$ 最多为 $\log n + 1$。
+对于任何 $0 \leq j \leq L$，我们从每个 $X_j$ 中随机均匀地取一个小样本 $C_j$，
+其中每个 $C_j$ 的点被赋予权重 $|X_j| / |C_j|$。最后，集合并 $\bigcup_{j=0}^{L} C_j$ 形成我们的最终 coreset。
+
+\begin{theorem}
+    对于一个CnB问题，其损失函数 $f(\theta, X)$ 如定义\ref{def:CnB} 所述，
+    令 ddim 为参数空间的加倍维度。上述 coreset 构造方法
+    可以在线性时间内实现一个大小为
+    \begin{equation*}
+    \Theta \left( \frac{\log n}{\epsilon^2} \left( \text{ddim} \cdot \log \frac{1}{\epsilon} + \log \frac{1}{\eta} \right) \right)
+    \end{equation*}
+    的 $\epsilon$-coreset。$|C|$的隐藏常数取决于 Lipschitz 常数 $\alpha$ 和 $\inf_{\theta \in \mathbb{B}(\tilde{\theta}, \ell)} \frac{1}{n} f(\theta, X)$。    
+\end{theorem}
+

@@ -56,11 +56,11 @@
 此外，我们在一个表 $\mathcal{L}$ 中记录关键值 $x.value = f(\tilde{\theta}, x)$ 及其
 在merge-and-reduce树中的位置 $x.position$，对于 $X$ 中的每个 $x$；它们按 $x.value$ 排序。
 为了处理动态更新（例如删除和插入），我们还维护一个指向数据项 $x_z$ 的关键指针 $p$（
-会议 $x_z$ 是第 3.2 节中定义的 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点）。
+回忆 $x_z$ 是第 3.2 节中定义的 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点）。
 
 当一个新的数据项 $x$ 进入或现有数据项 $x$ 将被删除时，我们只需要将其与 $f(\tilde{\theta}, x_z)$ 比较，以决定是更新 $C_{si}$ 还是 $C_{so}$；更新后，我们还需要更新 $x_z$ 和表 $\mathcal{L}$ 中的指针 $p$。如果离群值数量 $z$ 发生变化，我们只需要首先更新 $x_z$ 和 $p$，然后更新 $C_{si}$ 和 $C_{so}$（例如，如果 $z$ 增加，我们只需要从 $C_{so}$ 中删除一些项，并将一些项插入 $C_{si}$）。为了实现这些更新操作，我们还选择了一个桶作为“热桶”，它充当执行所有数据移动的传递工具。
 
-为了整体上获得一个 $\varepsilon$-coreset，我们需要在每个减少部分构建一个大小为 $M(\varepsilon / \log n)$ 的 coreset \citep{AHV04}。我们用 $M$ 表示 $M(\varepsilon / \log n)$ 并假设我们可以在时间 $t(|X|)$ 内计算 $X$ 的 coreset \citep{Sch14}，我们针对增删改有以下结果。
+为了整体上获得一个 $\varepsilon$-coreset，我们需要在每个结点向上更新时构建一个大小为 $M(\varepsilon / \log n)$ 的 coreset \citep{AHV04}。我们用 $M$ 表示 $M(\varepsilon / \log n)$ 并假设我们可以在时间 $t(|X|)$ 内计算 $X$ 的 coreset \citep{Sch14}，我们针对增删改有以下结果。
 
 \begin{enumerate}
     \item Insert(y)（插入数据点y）根据$y.value=f(\tilde{\theta},y)$插入表
@@ -74,3 +74,32 @@
     \item Update(y)（更新数据点y）只需要运行Delete(y)和Insert(y)即可，运行时间为$O\left(t(M)\log n\right)$
     \item Change($\increment$z)（改变离群点的数量）根据$\increment z$的正负分别运行$\tilde{z}(z+\increment z)-\tilde{z}(z)$次针对树的Insert或Delete操作。对应的更新时间为$O\left(\frac{\increment z}{\varepsilon}t(M)\log n\right)$
 \end{enumerate}
+
+\begin{figure}
+    \centering
+    \subcaptionbox[Short Subcaption]{%
+        Merge-and-Reduce（无离群点时）%
+        \label{subfig:sublabel1}%
+    }
+    [%
+        0.45\textwidth % width of caption
+    ]%
+    {%
+        \includegraphics[width=0.45\textwidth]%
+        {./figures/merge-and-reduce.jpg}%
+    }%
+    \hfill
+    \subcaptionbox[Short Subcaption]{%
+        Merge-and-Reduce（有离群点时）%
+        \label{subfig:sublabel2}%
+    }
+    [%
+        0.45\textwidth % width of caption
+    ]%
+    {%
+        \includegraphics[width=0.45\textwidth]%
+        {./figures/merge-and-reduce-outliers.jpg}%
+    }%
+    \caption[Short Caption]{动态情况下的coreset框架}
+    \label{fig:label}
+\end{figure}
