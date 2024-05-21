@@ -58,7 +58,7 @@ f(\theta, X) := \sum_{x \in X} w(x) f(\theta, x).
 
 给定 $X$ 中预定数量的离群值 $z \in \mathbb{Z}^+$（对于加权情况，“$z$”指的是离群值的总权重），我们定义“鲁棒”目标函数：
 \begin{equation}
-f_z(\theta, X) := \min_{O \subset X, |O| = z} f(\theta, X \setminus O).
+f_z(\theta, X) := \min_{O \subset X, [[O]] = z} f(\theta, X \setminus O).
 \label{eq:robust loss}
 \end{equation}
 

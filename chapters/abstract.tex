@@ -1,30 +1,34 @@
 % !TeX root = ../main.tex
 
 \ustcsetup{
-  keywords  = {学位论文, 摘要, 关键词},
-  keywords* = {dissertation, abstract, keywords},
+  keywords  = {核心集, 加倍维度, 加倍空间，连续有界学习问题，k聚类问题},
+  keywords* = {coreset, doubling dimension, doubling space, continuous bounded learning problems, k-means clustering problems},
 }
 
 \begin{abstract}
-  摘要分中文和英文两种，中文在前，英文在后，博士论文中文摘要一般 800～1500 个汉字，硕士论文中文摘要一般 500～1000 个汉字。
-  英文摘要的篇幅参照中文摘要。
-
-  关键词另起一行并隔行排列于摘要下方，左顶格，中文关键词间空一字或用分号“，”隔开，英文关键词之间用逗号“,”或分号“;”隔开。
-
-  中文摘要是论文内容的总结概括，应简要说明论文的研究目的、基本研究内容、研究方法或过程、结果和结论，突出论文的创新之处。
-  摘要应具有独立性和自明性，即不用阅读全文，就能获得论文必要的信息。
-  摘要中不宜使用公式、图表，不引用文献。
-
-  中文关键词是为了文献标引工作从论文中选取出来用以表示全文主题内容信息的单词和术语，一般 3～8 个词，要求能够准确概括论文的核心内容。
+  在许多机器学习任务中，处理大规模数据的常见方法是构建一个小的数据集，
+  例如核心集，这可以有效地表示原始输入的性质。
+  然而，真实世界的数据集通常包含异常值，而大多数现有的核心集构建方法对异常值不具备韧性
+  （特别是异常值可能由对抗攻击出现在问题空间中）。
+  在本文中，我们使用了一种可用于连续且有界学习问题（包含异常值）的鲁棒核心集方法，
+  这类问题包括了机器学习中广泛应用的优化目标，例如逻辑回归和k-means聚类。
+  此外，本文的核心集框架可以在完全动态的环境中高效维护。
+  另一个亮点是，本文基于参数空间的加倍维度，针对核心集的大小进行优化，
+  使其可以依赖于参数空间的倍增维数，而不是损失函数的VC维数，后者可能非常大甚至难以计算。
+  最后，我们在真实世界的数据集上进行了实验，以评估我们提出的鲁棒核心集方法的有效性。
 \end{abstract}
 
 \begin{abstract*}
-  This is a sample document of USTC thesis \LaTeX{} template for bachelor,
-  master and doctor. The template is created by zepinglee and seisman, which
-  orignate from the template created by ywg. The template meets the
-  equirements of USTC thesis writing standards.
-
-  This document will show the usage of basic commands provided by \LaTeX{} and
-  some features provided by the template. For more information, please refer to
-  the template document ustcthesis.pdf.
+  In many machine learning tasks, a common approach for handling large-scale data is to construct a small dataset, 
+  such as a coreset, which can effectively capture the properties of the original input. However, 
+  real-world datasets often contain outliers, and most existing coreset construction methods 
+  are not resilient to outliers (particularly, outliers may be arbitrarily located in the space by adversarial 
+  attackers). In this paper, we propose a robust coreset method that can be applied to continuous and 
+  bounded learning problems (including outliers), which encompass a broad range of widely-used optimization 
+  objectives in machine learning, such as logistic regression and k-means clustering. Moreover, 
+  the coreset framework presented in this paper can be efficiently maintained in a fully dynamic environment. 
+  Another highlight is that the size of the coreset can be optimized based on the doubling dimension of the 
+  parameter space, rather than the VC dimension of the loss function, which can be very large or even challenging 
+  to compute. Finally, we conduct experiments on real-world datasets to evaluate the effectiveness of the 
+  proposed robust coreset method.
 \end{abstract*}
