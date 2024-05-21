@@ -17,7 +17,7 @@ coreset。假设 $s_i$ 是 $\sigma_i$ 的上界，并且令 $S = \sum_{i=1}^n s_
 
 \begin{theorem}[\citep{BFL16}]。
 
-令 $vcdim$ 为由 $f(\theta, x)$ 诱导的范围空间的 VC 维度（或 shattering 维度）。如果 $C$ 的大小为
+令 vcdim 为由 $f(\theta, x)$ 诱导的范围空间的 VC 维度（或 shattering 维度）。如果 $C$ 的大小为
 \begin{equation}
 \Theta \left( \frac{S}{\varepsilon^2} \left( \text{vcdim} \cdot \log S + \log \frac{1}{\eta} \right) \right)
 \end{equation}
@@ -78,15 +78,18 @@ coreset。假设 $s_i$ 是 $\sigma_i$ 的上界，并且令 $S = \sum_{i=1}^n s_
     第一项不超过 $\varepsilon n \xi(\ell)$，因为 $\xi(\varepsilon \ell) \leq \epsilon \xi(\ell)$。
     中间项可以由 $\varepsilon (f(\theta, X) + n \xi(\ell))$控制。
     第三项不超过 $\varepsilon n \cdot c \cdot \xi(\ell)$，其中 $c$ 是一个常数，原因是重要性采样的权重之和不是n，c是一个由敏感度上界决定的常数$c=\frac{(\sum_{x_i\in X}s_i)/|X|}{(\sum_{x_i \in C}1/s_i)/|C|}$。
-    因此，$|f(\theta, X) - f(\theta, C)| \leq \epsilon f(\theta, X) + 3 \epsilon n \xi(\ell)$。
+    因此，$|f(\theta, X) - f(\theta, C)| \leq \epsilon f(\theta, X) + (2+c) \epsilon n \xi(\ell)$。
     如果将 $\varepsilon$ 替换为 $\min \{\varepsilon / 2, \varepsilon \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \epsilon)} f(\theta, X) / 2(2+c)n \xi(\ell)\}$，
     通过简单计算，我们可以以概率$1-\eta$得到大小为$|C|$的 $\epsilon$-coreset:
 \begin{equation}
-|C| = \Theta \left( \frac{S}{\varepsilon^2} \left( \text{ddim} \log \frac{1}{\epsilon} + \log \frac{1}{\eta} \right) \right)
+|C| = \Theta \left( \frac{S}{\varepsilon^2} \left( \log S+\text{ddim} \log \frac{1}{\epsilon} + \log \frac{1}{\eta} \right) \right)
 \end{equation}
 由于 $\xi(\ell)$ 有一个隐含参数 $\alpha$，$|C|$ 
 的隐含常数取决于 $\alpha$，c 和
 $\inf_{\theta \in \mathcal{B}(\tilde{\theta}, \epsilon)} \frac{f(\theta, X)}{n}$。
+\begin{remark}
+    在基于重要性采样的分析中，由于coreset的权重和不再是n，式中出现了常数c。实际上常数c的期望是1，因此其结论和之前一致。
+\end{remark}
 
 \end{proof}
 
