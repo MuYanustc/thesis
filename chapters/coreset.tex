@@ -1,80 +1,82 @@
-\chapter{Coreset框架}
+\chapter{核心集框架}
 
-我们构建鲁棒coreset的想法来自以下直觉：
-在理想情况下，如果我们知道哪些是正常点，哪些是离群点，我们可以简单地分别为它们构建coreset。
+我们构建鲁棒核心集的想法符合以下直觉：
+在理想情况下，如果我们知道哪些是正常点，哪些是离群点，我们可以简单地分别为它们构建核心集。
 实际上，虽然我们无法得到如此明确的分类，但CnB条件（定义\ref{def:CnB}）可以指导我们获得“粗略”的分类。
-我们可以证明这种混合框架可以生成一个鲁棒coreset。
+可以证明\cite{Wang2021RobustAF}，这种混合框架可以生成一个鲁棒核心集。
 
 \section{框架细节}
 
 首先利用$\tilde{\theta}$对数据进行“粗略”的分类。我们根据 $f(\tilde{\theta}, x)$ 的值将数据分为两部分：$X_{\text{si}}$和$X_{\text{so}}$，前者是“可能”的正常点
-，后者是“可能”的离群点。令 $\varepsilon_0 := \min \left\{ \frac{\epsilon}{16}, \frac{\epsilon \cdot \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \epsilon)} f_z(\theta, X)}{16(n - z) \alpha \ell} \right\}$，并且令 $\tilde{z} := (1 + 1/\epsilon_0) z$；$x_z \in X$ 是在 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点。
+，后者是“可能”的离群点。令 $\varepsilon_0 := \min \left\{ \frac{\varepsilon}{16}, \frac{\varepsilon \cdot \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \varepsilon)} f_z(\theta, X)}{16(n - z) \alpha \ell} \right\}$，并且令 $\tilde{z} := (1 + 1/\varepsilon_0) z$；$x_z \in X$ 是在 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点。
 
-我们令 $\tau = f(\tilde{\theta}, x_z)$，于是我们得到集合
+我们令 $\tau = f(\tilde{\theta}, x_{\tilde{z}})$，于是我们得到集合
 \begin{equation}
 \{ x \in X \mid f(\tilde{\theta}, x) \geq \tau \}.
 \end{equation}
 
-该集合即为 $X_{\text{so}}$，将剩余的点作为“可能”的正常点 $X_{\text{si}} := X \setminus X_{\text{so}}$。下面我们利用这两个集合构建coreset。
+该集合即为 $X_{\text{so}}$，将剩余的点作为“可能”的正常点 $X_{\text{si}} := X \setminus X_{\text{so}}$。下面我们利用这两个集合构建核心集。
 
-假设我们有一个黑盒的coreset方法$\mathcal{A}$。我们通过方法 $\mathcal{A}$ 为 $X_{si}$ 构建一个 $\epsilon_1$-coreset ($\epsilon_1 = \epsilon / 4$)，并通过设置 $\delta = \frac{\beta \epsilon_0}{1 + \epsilon_0}$ 为 $X_{so}$ 取一个 $\delta$-样本。
+\textbf{算法：}假设我们有一个黑盒的核心集方法$\mathcal{A}$。我们通过方法 $\mathcal{A}$ 为 $X_{si}$ 构建一个 $\varepsilon_1$-coreset ($\varepsilon_1 = \varepsilon / 4$)，并通过设置 $\delta = \frac{\beta \varepsilon_0}{1 + \varepsilon_0}$ 为 $X_{so}$ 取一个 $\delta$-样本。
 
-我们将这两个集合分别记为 $C_{si}$ 和 $C_{so}$。如果我们设置 $\beta = 0$（即，不要求离群值数量上的误差），我们直接将 $X_{so}$ 的所有点作为 $C_{so}$。最后，我们返回 $C = C_{si} \cup C_{so}$ 作为鲁棒 coreset。
+我们将这两个集合分别记为 $C_{si}$ 和 $C_{so}$。如果我们设置 $\beta = 0$（即，不要求离群值数量上的误差），我们直接将 $X_{so}$ 的所有点作为 $C_{so}$。最后，我们返回 $C = C_{si} \cup C_{so}$ 作为鲁棒 核心集。
 
+有了第二章关于均匀采样的讨论，结合\cite{Wang2021RobustAF}的理论证明，我们可以自然的得到以下定理：
 \begin{theorem}
     对于一个CnB问题，我们可以通过构建上述框架，其以概率$1-\eta$返回一个大小为：
     \begin{equation*}
         |C_{si}|+\min\left\{O\left(\frac{1}{\beta^2\varepsilon^2}(\text{vcdim}+\log \frac 1 \eta)\right),O\left(\frac{1}{\beta^2\varepsilon_0^2}(\text{ddim}\log\frac{1}{\varepsilon_0}+\log \frac{1}{\eta})\right),O\left(\frac z {\varepsilon_0}\right)\right\}
     \end{equation*}
-的$(\beta,\epsilon)$-coreset。特殊的，当$\beta = 0$，大小为$|C_{si}|+O\left(\frac{z}{\varepsilon_0}\right)$
+的$(\beta,\varepsilon)$-coreset。特殊的，当$\beta = 0$，大小为$|C_{si}|+O\left(\frac{z}{\varepsilon_0}\right)$
 \end{theorem}
 %cite wzx
-本文在之前工作的基础上，基于\ref{thm:uniform final}优化了$C_{si}$的大小，使其理论下限不再依赖于vcdim。
+本文在之前工作的基础上，基于定理\ref{thm:uniform final}优化了$C_{si}$的大小，使其理论下限不严格依赖于vcdim。
 
 \section{动态情况}
 
-本文的coreset框架的另一个点是其适应于动态数据流。在动态情况下，数据集$X$会不断变化，我们需要不断更新coreset。
+本文使用的核心集框架的另一个特点是其适应于动态数据流。在动态情况下，数据集$X$会不断变化，我们需要不断更新核心集。
 
 标准的 $\varepsilon$-coreset 通常具有两个重要性质。如果 $C_1$ 和 $C_2$ 分别是两个不相交集合 $X_1$ 
-和 $X_2$ 的 $\varepsilon$-coreset，那么它们的并集 $C_1 \cup C_2$ 应该是 $X_1 \cup X_2$ 的 $\epsilon$-coreset。
+和 $X_2$ 的 $\varepsilon$-coreset，那么它们的并集 $C_1 \cup C_2$ 应该是 $X_1 \cup X_2$ 的 $\varepsilon$-coreset。
 同时，如果 $C_1$ 是 $C_2$ 的 $\varepsilon_1$-coreset 且 $C_2$ 是 $C_3$ 的 $\varepsilon_2$-coreset，
 那么 $C_1$ 应该是 $C_3$ 的 $(\varepsilon_1 + \varepsilon_2 + \varepsilon_1 \varepsilon_2)$-coreset。
-基于这两个性质，可以使用“merge-and-reduce”技术 \citep{BS80, HM04} 为增量数据流构建一个 coreset。
+基于这两个性质，可以使用“merge-and-reduce”技术 \citep{DBLP:conf/stoc/Har-PeledM04,DBLP:conf/esa/HenzingerK20} 为增量数据流构建一个核心集。
 
 
-大致来说，“merge-and-reduce”技术使用一系列“桶”来维护输入流数据的 coreset，并以自底向上的方式合并这些桶。
+大致来说，“merge-and-reduce”技术使用一系列“桶”来维护输入流数据的 核心集，并以自底向上的方式合并这些桶。
 然而，在有离群值的情况下直接使用这种策略需要一些额外设计，因为我们无法确定每个桶中的离群值数量。
-我们的混合鲁棒 coreset 框架的一个有趣方面是，我们可以通过使用一个大小为 $O(n)$ 的辅助表 $\mathcal{L}$ 
-以及“merge-and-reduce”技术轻松解决这一障碍（请注意，即使在没有离群值的情况下，维护一个完全动态的 coreset 已经需要 $\Omega(n)$ 的空间 \citep{HK20}）。
+混合鲁棒核心集框架的一个优点是，我们可以通过使用一个大小为 $O(n)$ 的辅助表 $\mathcal{L}$ 
+以及“merge-and-reduce”技术轻松解决这一障碍（即使在没有离群值的情况下，维护一个完全动态的 coreset 已经需要 $\Omega(n)$ 的空间 \cite{DBLP:conf/esa/HenzingerK20}）。
 我们在下面简要介绍具体算法。
 
 回顾一下，我们将输入数据 $X$ 分为两部分：$n - \tilde{z}$ 个“可能的正常
-点”和 $\tilde{z}$ 个“可能的离群点”，其中 $\tilde{z} = (1 + 1/\epsilon_0)z$。
+点”和 $\tilde{z}$ 个“可能的离群点”，其中 $\tilde{z} = (1 + 1/\varepsilon_0)z$。
 
-对于第一部分，我们只需直接应用"merge-and-reduce"技术来获得一个完全动态 coreset $C_{si}$；对于第二部分，我们可以只取一个 $\delta$-样本或取整个集合（如果我们要求 $\beta = 0$），并将其表示为 $C_{so}$。
+对于第一部分，我们只需直接应用"merge-and-reduce"技术来获得一个完全动态核心集 $C_{si}$；对于第二部分，我们可以只取一个 $\delta$-样本或取整个集合（如果我们要求 $\beta = 0$），并将其表示为 $C_{so}$。
 
 此外，我们在一个表 $\mathcal{L}$ 中记录关键值 $x.value = f(\tilde{\theta}, x)$ 及其
 在merge-and-reduce树中的位置 $x.position$，对于 $X$ 中的每个 $x$；它们按 $x.value$ 排序。
 为了处理动态更新（例如删除和插入），我们还维护一个指向数据项 $x_z$ 的关键指针 $p$（
-回忆 $x_z$ 是第 3.2 节中定义的 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点）。
+回忆 $x_z$ 是 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点）。
 
 当一个新的数据项 $x$ 进入或现有数据项 $x$ 将被删除时，我们只需要将其与 $f(\tilde{\theta}, x_z)$ 比较，以决定是更新 $C_{si}$ 还是 $C_{so}$；更新后，我们还需要更新 $x_z$ 和表 $\mathcal{L}$ 中的指针 $p$。如果离群值数量 $z$ 发生变化，我们只需要首先更新 $x_z$ 和 $p$，然后更新 $C_{si}$ 和 $C_{so}$（例如，如果 $z$ 增加，我们只需要从 $C_{so}$ 中删除一些项，并将一些项插入 $C_{si}$）。为了实现这些更新操作，我们还选择了一个桶作为“热桶”，它充当执行所有数据移动的传递工具。
 
-为了整体上获得一个 $\varepsilon$-coreset，我们需要在每个结点向上更新时构建一个大小为 $M(\varepsilon / \log n)$ 的 coreset \citep{AHV04}。我们用 $M$ 表示 $M(\varepsilon / \log n)$ 并假设我们可以在时间 $t(|X|)$ 内计算 $X$ 的 coreset \citep{Sch14}，我们针对增删改有以下结果。
+为了整体上获得一个 $\varepsilon$-coreset，我们需要在每个结点向上更新时构建一个大小为 $M(\varepsilon / \log n)$ 的 核心集 \cite{DBLP:journals/jacm/AgarwalHV04}。我们用 $M$ 表示 $M(\varepsilon / \log n)$ 并假设我们可以在时间 $t(|X|)$ 内计算 $X$ 的 核心集 \cite{DBLP:books/daglib/0035668}，我们针对增删改有以下结果。
 
 \begin{enumerate}
     \item Insert(y)（插入数据点y）根据$y.value=f(\tilde{\theta},y)$插入表
-    $\mathcal{L}$中。如果$y.value\geq $，则将$y$插入$C_{so}$，否则插入$C_{si}$。
-    如果$y.value>f(\tilde{\theta},x_z)=p->value$，则将p指向的元素加入热桶，更新$p\leftarrow p+1$；
-    如果$y.value\leq p->value$，将该元素加入热桶。
-    最后从热桶自底向上更新整颗树。更新时间为$O\left(t(M)\log n\right)$
+    $\mathcal{L}$中。如果$y.value\geq p\rightarrow value$，则将$y$插入$C_{so}$，否则插入$C_{si}$。
+    如果$y.value>f(\tilde{\theta},x_z)=p\rightarrow value$，则将p指向的元素加入热桶，更新$p\leftarrow p+1$；
+    如果$y.value\leq p\rightarrow value$，将该元素加入热桶。
+    最后从热桶自底向上更新整颗树。更新时间为$O\left(t(M)\log n\right)$。
     \item Delete(y)（删除数据点y）如果$y$是可能的正常点，那么将其从对应的桶$y.position$中删除，
     从这个桶更新树，最后从表$\mathcal{L}$中删除$y$。如果$y$是可能的离群点，直接从表$\mathcal{L}$中删除$y$，然后更新$p\leftarrow p-1$，
-    最后删除$p$指向的点，从对应桶更新树。总时间开销是$O\left(t(M)\log n\right)$
-    \item Update(y)（更新数据点y）只需要运行Delete(y)和Insert(y)即可，运行时间为$O\left(t(M)\log n\right)$
-    \item Change($\increment$z)（改变离群点的数量）根据$\increment z$的正负分别运行$\tilde{z}(z+\increment z)-\tilde{z}(z)$次针对树的Insert或Delete操作。对应的更新时间为$O\left(\frac{\increment z}{\varepsilon}t(M)\log n\right)$
+    最后删除$p$指向的点，从对应桶更新树。总时间开销是$O\left(t(M)\log n\right)$。
+    \item Update(y)（更新数据点y）只需要运行Delete(y)和Insert(y)即可，运行时间为$O\left(t(M)\log n\right)$。
+    \item Change($\increment$z)（改变离群点的数量）根据$\increment z$的正负分别运行$\tilde{z}(z+\increment z)-\tilde{z}(z)$次针对树的Insert或Delete操作。对应的更新时间为$O\left(\frac{\increment z}{\varepsilon}t(M)\log n\right)$。
 \end{enumerate}
 
+注意到上述算法中Insert(y)和Delete(y)在实际操作中的时间开销还需要加上查找和插入的时间，但这些时间开销都是$O(\log n)$的，因此不会影响总的时间复杂度。图\ref{fig:dyn}展示了动态情况下的核心集框架示意图。
 \begin{figure}
     \centering
     \subcaptionbox[Short Subcaption]{%
@@ -86,7 +88,7 @@
     ]%
     {%
         \includegraphics[width=0.45\textwidth]%
-        {./figures/merge-and-reduce.jpg}%
+        {./fig/merge-and-reduce.pdf}%
     }%
     \hfill
     \subcaptionbox[Short Subcaption]{%
@@ -98,8 +100,8 @@
     ]%
     {%
         \includegraphics[width=0.45\textwidth]%
-        {./figures/merge-and-reduce-outliers.jpg}%
+        {./fig/merge-and-reduce-outliers.pdf}%
     }%
-    \caption[Short Caption]{动态情况下的coreset框架}
-    \label{fig:label}
+    \caption[Short Caption]{动态情况下的核心集框架}
+    \label{fig:dyn}
 \end{figure}

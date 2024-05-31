@@ -1,9 +1,9 @@
 \chapter{均匀采样}
 
-均匀采样作为一种简单高效的采样方法，在各种各样的coreset算法中都有广泛应用。
+均匀采样作为一种简单高效的采样方法，在各种各样的核心集算法中都有广泛应用。
 在本章中，我们将介绍均匀采样的一些性质，为本文后续的证明铺垫。
 
-在此之前，先介绍一些概念。以下的“$\delta$-样本”概念来自 VC 维度理论。
+在此之前，先介绍一些概念。以下的“$\delta$-样本”概念来自 VC 维度理论\cite{DBLP:journals/jcss/LiLS01}。
 
 \begin{definition}[$\delta$-sample]
     给定范围空间 $(\mathcal{X}, \mathcal{R})$，设 $C$ 和 $X$ 是 $\mathcal{X}$ 的两个有限子集。假设 $\delta \in (0, 1)$。如果 $C \subseteq X$ 并且对于任意 $R \in \mathcal{R}$ 都有
@@ -17,14 +17,14 @@
 
 记vcdim为范围空间 $(\mathcal{X}, \mathcal{R})$ 的 VC-dimension。
 那么我们可以通过从 $X$ 中均匀采样 $O\left(\frac{1}{\delta^2} \left(\text{vcdim} + \log \frac{1}{\eta}\right)\right)$ 个点
-，以概率 $1 - \eta$ 获得一个 $\delta$-样本 \citep{LLS01}。$\text{vcdim}$ 的值取决于函数“$f$”。
+，以概率 $1 - \eta$ 获得一个 $\delta$-样本 \cite{DBLP:journals/jcss/LiLS01}。$\text{vcdim}$ 的值取决于函数“$f$”。
 例如，如果“$f$”是 $\mathbb{R}^d$ 中逻辑回归的损失函数，
-那么 $\text{vcdim}$ 可以达到 $\Theta(d)$ \citep{MSSW18}。
+那么 $\text{vcdim}$ 可以达到 $\Theta(d)$ \cite{DBLP:conf/gi/MunteanuSSW19}。
 以下定理表明，如果 $z$ 是 $n$ 的常数因子，那么 $\delta$-样本可以作
-为鲁棒 coreset。请注意，在以下定理中，目标函数 $f$ 可以是任何函数，而不仅仅是定义 1 中所述的函数。
+为鲁棒核心集。请注意，在以下定理中，损失函数 $f$ 可以是任何函数，而不仅仅是定义 1 中所述的函数。
 
 % 引用 wzx
-\begin{theorem}
+\begin{theorem}[\cite{Wang2021RobustAF}]
     设 $(X, z)$ 是鲁棒学习问题 ~\eqref{eq:robust loss} 的一个实例。
     如果 $C$ 是 $f$-诱导范围空间中的 $X$ 的一个 $\delta$-样本，
     我们为每个 $c \in C$ 赋值权重 $w(c) = \frac{n}{|C|}$。则我们有
@@ -34,12 +34,12 @@
     对于任意 $\theta \in \mathcal{P}$ 和任
     意 $\delta \in (0, z/n)$。
     特别地，如果 $\delta = \beta z / n$，
-    则 $C$ 是 $X$ 的一个 $(\beta, 0)$-鲁棒 coreset，
+    则 $C$ 是 $X$ 的一个 $(\beta, 0)$-鲁棒核心集，
     并且 $C$ 的大小为 $O\left(\frac{1}{\beta^2}\left(\frac{n}{z}\right)^2\left(\text{vcdim} + \log \frac{1}{\eta}\right)\right)$。
 \end{theorem}
 
-该结论只有当 $z$ 是 $n$ 的常数因子时才是有意义的，否则例如$z=\sqrt n$时，coreset的大小将会是$O(n)$量级的，而这是没有意义的。
-本文后续使用的coreset框架可以在限定为CnB问题时，解决这一缺点。
+该结论只有当 $z$ 是 $n$ 的常数因子时才是有意义的，否则例如$z=\sqrt n$时，核心集的大小将会是$O(n)$量级的，而这是没有意义的。
+本文后续使用的核心集框架可以在限定为CnB问题时，解决这一缺点。
 \begin{corollary}
     对于某个固定参数$\theta \in \mathcal{P}$, 如果我们从 $X$ 中均
     匀采样 $O\left(\frac{1}{\delta^2}  \log \frac{2}{\eta}\right)$ 个点，
@@ -52,7 +52,7 @@
 
 \begin{theorem}
     如果 $f$ 满足定义~\ref{def:CnB} 中的CnB条件，那么我们可以从 $X$ 中均匀采样 $O\left(\frac{1}{\delta^2} \left(\text{ddim}\log \frac 1 \varepsilon + \log \frac{1}{\eta}\right)\right)$ 个点，
-    以概率 $1 - \eta$ 获得一个($\beta, \epsilon$)-coreset。其中$\text{ddim}$是参数空间$\mathcal{P}$的加倍维度，$\beta = \frac{\delta n}{z}$。
+    以概率 $1 - \eta$ 获得一个($\beta, \varepsilon$)-coreset。其中$\text{ddim}$是参数空间$\mathcal{P}$的加倍维度，$\beta = \frac{\delta n}{z}$。
     \label{thm:uniform}
 \end{theorem}
 \begin{proof}
@@ -78,7 +78,7 @@
     \end{proposition}
     加倍维度刻画了空间的一些性质，最直观的反应在$\varepsilon$-net的大小上。我们可以在
 $X\subset \mathcal{X}$中随机采样$O\left(\frac{1}{\delta^2}\left(\log \frac{2|\mathbb{B}^{\varepsilon \ell}|}{\eta}\right)\right)$个点，记为$C$。
-其中$\mathbb{B}^{\varepsilon \ell}$是$\mathbb{B}(\tilde{\theta}, \ell)$的一个$\epsilon l$-net。
+其中$\mathbb{B}^{\varepsilon \ell}$是$\mathbb{B}(\tilde{\theta}, \ell)$的一个$\varepsilon l$-net。
 
 根据命题\ref{prop:union bound}和推论\ref{cor:fixed theta}我们可以得到:
 \begin{equation}
@@ -123,7 +123,7 @@ $X\subset \mathcal{X}$中随机采样$O\left(\frac{1}{\delta^2}\left(\log \frac{
 \end{proof}
 
 可以观察到关于这个定理的结论中，出现了新的参数$\varepsilon$，用于控制$\delta$-样本的质量。越小的$\varepsilon$意味着更好的质量，但是也意味着更大的样本量。
-那么是否可以通过均匀采样得到一个不牺牲精度的鲁棒coreset呢，即一个$(\beta,0)$-coreset呢？答案是肯定的。
+那么是否可以通过均匀采样得到一个不牺牲精度的鲁棒核心集呢，即一个$(\beta,0)$-coreset呢？答案是肯定的。
 
 \begin{theorem}
     如果$f$满足定义\ref{def:CnB}中的CnB条件，那么我们可以从$X$中均匀采样$O\left(\frac{1}{\delta^2}\left(\text{ddim}\log\frac 1 \delta+\log\frac{1}{\eta}\right)\right)$个点，以概率$1-\eta$获得一个$(\beta,0)$-coreset，其中$\beta=\frac{\delta n}{z}$。

@@ -1,20 +1,20 @@
 % !TeX root = ../main.tex
 
 \ustcsetup{
-  keywords  = {核心集, 加倍维度, 加倍空间，连续有界学习问题，k聚类问题},
+  keywords  = {核心集, 加倍维度, 加倍空间, 连续有界学习问题, k聚类问题},
   keywords* = {coreset, doubling dimension, doubling space, continuous bounded learning problems, k-means clustering problems},
 }
 
 \begin{abstract}
   在许多机器学习任务中，处理大规模数据的常见方法是构建一个小的数据集，
   例如核心集，这可以有效地表示原始输入的性质。
-  然而，真实世界的数据集通常包含异常值，而大多数现有的核心集构建方法对异常值不具备韧性
+  然而，真实世界的数据集通常包含异常值，而大多数现有的核心集构建方法对异常值不具备鲁棒性
   （特别是异常值可能由对抗攻击出现在问题空间中）。
   在本文中，我们使用了一种可用于连续且有界学习问题（包含异常值）的鲁棒核心集方法，
   这类问题包括了机器学习中广泛应用的优化目标，例如逻辑回归和k-means聚类。
   此外，本文的核心集框架可以在完全动态的环境中高效维护。
   另一个亮点是，本文基于参数空间的加倍维度，针对核心集的大小进行优化，
-  使其可以依赖于参数空间的倍增维数，而不是损失函数的VC维数，后者可能非常大甚至难以计算。
+  使其可以依赖于参数空间的加倍维度，而不是损失函数的VC维度，后者可能非常大甚至难以计算。
   最后，我们在真实世界的数据集上进行了实验，以评估我们提出的鲁棒核心集方法的有效性。
 \end{abstract}
 
@@ -23,7 +23,7 @@
   such as a coreset, which can effectively capture the properties of the original input. However, 
   real-world datasets often contain outliers, and most existing coreset construction methods 
   are not resilient to outliers (particularly, outliers may be arbitrarily located in the space by adversarial 
-  attackers). In this paper, we propose a robust coreset method that can be applied to continuous and 
+  attackers). In this paper, we use a robust coreset method that can be applied to continuous and 
   bounded learning problems (including outliers), which encompass a broad range of widely-used optimization 
   objectives in machine learning, such as logistic regression and k-means clustering. Moreover, 
   the coreset framework presented in this paper can be efficiently maintained in a fully dynamic environment. 
