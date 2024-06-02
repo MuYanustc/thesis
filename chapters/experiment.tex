@@ -46,58 +46,58 @@ outlier\_ratio表示我们在构建核心集和运行kmeans算法时使用的参
 
 
 \begin{table}[h!]
-    \centering
-    \caption{(0.2,0.05) 和 (0.05,0.2) - MNIST数据集效果}
-    \begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-    \textbf{方法} & $|C|$ & \textbf{(0.05,0.2) $\mathbf{LR}$} & \textbf{(0.2,0.05) $\mathbf{LR}$} & \textbf{(0.2,0.05) $\mathbf{LR}_z$} & \textbf{(0.05,0.2) $\mathbf{LR}_z$} \\
-    \hline
-    \multirow{3}{*}{\textbf{Uniform}} 
-      & $3 \times 10^3$  & 1.0277 & 1.0163 & 1.0874 & 2.4676 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0251 & 1.0038 & 1.0710 & 2.3747 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0192 & 1.0034 & 1.0588 & 2.3454 \\
-    \hline
-    \multirow{3}{*}{\textbf{Uniform+}} 
-      & $3 \times 10^3$  & 1.0170 & 1.0166 & 1.0906 & 2.4032 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0205 & 1.0088 & 1.0892 & 2.4790 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0142 & 1.0064 & 1.0810 & 2.4722 \\
-    \hline
-    \multirow{3}{*}{\textbf{GSP}}      
-      & $3 \times 10^3$  & 1.0324 & 1.0035 & 1.0829 & 2.4473 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0169 & 1.0013 & 1.0731 & 2.3014 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0183 & 1.0008 & 1.0606 & 2.1017 \\
-    \hline
-    \multirow{3}{*}{\textbf{GSP+}}     
-      & $3 \times 10^3$  & 1.0158 & 1.0022 & 1.0939 & 2.2269 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0146 & 1.0006 & 1.0765 & 2.1577 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0164 & 1.0009 & 1.0610 & 2.0849 \\
-    \hline
-    \multirow{3}{*}{\textbf{Importance}} 
-      & $3 \times 10^3$  & 1.0295 & 1.0216 & 1.0801 & 2.5053 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0170 & 1.0045 & 1.0743 & 2.4032 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0125 & 1.0035 & 1.0582 & 2.2511 \\
-    \hline
-    \multirow{3}{*}{\textbf{Importance+}} 
-      & $3 \times 10^3$  & 1.0324 & 1.0156 & 1.0868 & 2.4473 \\
-    \cline{2-6}
-      & $1.1 \times 10^4$ & 1.0205 & 1.0132 & 1.0766 & 2.4790 \\
-    \cline{2-6}
-      & $1.9 \times 10^4$ & 1.0142 & 1.0073 & 1.0756 & 2.4722 \\
-    \hline
-    \end{tabular}
-    \label{tab:mnist_combined}
-    \end{table}
-    
+  \centering
+  \caption{(0.2,0.05) 和 (0.05,0.2) - MNIST数据集效果}
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  \textbf{方法} & $|C|$ & \textbf{(0.05,0.2) $\mathbf{LR}$} & \textbf{(0.2,0.05) $\mathbf{LR}$} & \textbf{(0.05,0.2) $\mathbf{LR}_z$} & \textbf{(0.2,0.05) $\mathbf{LR}_z$} \\
+  \hline
+  \multirow{3}{*}{\textbf{Uniform}} 
+    & $3 \times 10^3$  & 1.0202 & 1.0277 & 2.5676 & 1.0906 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0216 & 1.0172 & 2.4846 & 1.0892 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0241 & 1.0197 & 2.4051 & 1.0810 \\
+  \hline
+  \multirow{3}{*}{\textbf{Uniform+}} 
+    & $3 \times 10^3$  & 1.0277 & 1.0163 & 2.4676 & 1.0874 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0172 & 1.0038 & 2.3021 & 1.0710 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0197 & 1.0034 & 2.1010 & 1.0588 \\
+  \hline
+  \multirow{3}{*}{\textbf{GSP}}      
+    & $3 \times 10^3$  & 1.0181 & 1.0301 & 2.4165 & 1.0939 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0151 & 1.0170 & 2.1905 & 1.0765 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0164 & 1.0183 & 2.0849 & 1.0610 \\
+  \hline
+  \multirow{3}{*}{\textbf{GSP+}}     
+    & $3 \times 10^3$  & 1.0301 & 1.0035 & 2.4634 & 1.0829 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0170 & 1.0013 & 2.3014 & 1.0731 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0183 & 1.0008 & 2.1017 & 1.0606 \\
+  \hline
+  \multirow{3}{*}{\textbf{Importance}} 
+    & $3 \times 10^3$  & 1.0208 & 1.0212 & 2.5362 & 1.0868 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0130 & 1.0189 & 2.4854 & 1.0766 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0229 & 1.0200 & 2.4020 & 1.0756 \\
+  \hline
+  \multirow{3}{*}{\textbf{Importance+}} 
+    & $3 \times 10^3$  & 1.0212 & 1.0216 & 2.4864 & 1.0801 \\
+  \cline{2-6}
+    & $1.1 \times 10^4$ & 1.0189 & 1.0045 & 2.2868 & 1.0743 \\
+  \cline{2-6}
+    & $1.9 \times 10^4$ & 1.0200 & 1.0035 & 2.1021 & 1.0582 \\
+  \hline
+  \end{tabular}
+  \label{tab:mnist_combined}
+\end{table}
+
 
 
 在不同配置下，即使$\mathbf{LR}_z$变化不大，但$\mathbf{LR}_z$却出现了相当大的偏移。
