@@ -8,7 +8,7 @@
 \section{框架细节}
 
 首先利用$\tilde{\theta}$对数据进行“粗略”的分类。我们根据 $f(\tilde{\theta}, x)$ 的值将数据分为两部分：$X_{\text{si}}$和$X_{\text{so}}$，前者是“可能”的正常点
-，后者是“可能”的离群点。令 $\varepsilon_0 := \min \left\{ \frac{\varepsilon}{16}, \frac{\varepsilon \cdot \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \varepsilon)} f_z(\theta, X)}{16(n - z) \alpha \ell} \right\}$，并且令 $\tilde{z} := (1 + 1/\varepsilon_0) z$；$x_z \in X$ 是在 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点。
+，后者是“可能”的离群点。令 $\varepsilon_0 := \min \left\{ \frac{\varepsilon}{16}, \frac{\varepsilon \cdot \inf_{\theta \in \mathcal{B}(\tilde{\theta}, \varepsilon)} f_z(\theta, X)}{16(n - z) \alpha \ell} \right\}$，并且令 $\tilde{z} := (1 + 1/\varepsilon_0) z$；$x_{\tilde{z}} \in X$ 是在 $X$ 中具有第 $\tilde{z}$ 大成本 $f(\tilde{\theta}, x)$ 的点。
 
 我们令 $\tau = f(\tilde{\theta}, x_{\tilde{z}})$，于是我们得到集合
 \begin{equation}
